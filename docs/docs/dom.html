@@ -1,0 +1,867 @@
+<!DOCTYPE HTML>
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: dom  dom  </title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1326369229.93" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1326369229.93" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1326369229.93"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1326369229.93"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="'https://github.com/ZauberNerd/domlib'" title="domlib">domlib</a></h1>
+        <h3>dom&nbsp; <span class="subtitle">0.0.1</span></h3>
+        <a href="./index.html" title="domlib">domlib</a> 
+            &gt; <a href="./module_dom.html" title="dom">dom</a>
+                 &gt; dom 
+                
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <h2>
+                        
+
+                        <code>static</code>
+                        
+                            Class <b property="yui:name">dom</b>
+                        <span class="extends">
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        Module for Dom Manipulations, Traversing and some small helpers
+                    </div>
+
+                    
+                    <div rel="yui:properties" resource="#properties">
+
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:method" resource="#method_byClass">
+                                    <h4>
+                                        <a name="method_byClass">byClass</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        [NodeList]
+                                            <strong property="yui:name">byClass</strong>
+                                           (
+                                                
+                                                        
+                                                         classname
+                                                    
+                                                
+                                                        , 
+                                                         scope
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns Elements by their className
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">classname</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The className you want to search for</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">scope</span>
+                                                        &lt;<span property="yui:type">Element</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: You could provide a Scope of an Element to search only inside that Scope for Elements</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        [NodeList]
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns a NodeList of Elements which have the given className</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_byId">
+                                    <h4>
+                                        <a name="method_byId">byId</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Element
+                                            <strong property="yui:name">byId</strong>
+                                           (
+                                                
+                                                        
+                                                         id
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns an Element by its ID
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">id</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The ID of the Element you want to reference</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Element
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">If there is an Element with the given ID it will be returned - otherwise the returnvalue is undefined</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_byName">
+                                    <h4>
+                                        <a name="method_byName">byName</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        [NodeList]
+                                            <strong property="yui:name">byName</strong>
+                                           (
+                                                
+                                                        
+                                                         name
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns Elements by their Name
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">name</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Name of the Element you want to reference</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        [NodeList]
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns a NodeList of Elements which match the given Name</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_byTagName">
+                                    <h4>
+                                        <a name="method_byTagName">byTagName</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        [NodeList]
+                                            <strong property="yui:name">byTagName</strong>
+                                           (
+                                                
+                                                        
+                                                         tag
+                                                    
+                                                
+                                                        , 
+                                                         scope
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns Elements by their Tagname
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">tag</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Tagname of the Element you want to reference</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">scope</span>
+                                                        &lt;<span property="yui:type">Element</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: You could provide a Scope of an Element to search only inside that Scope for Elements</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        [NodeList]
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns a NodeList of Elements which match the given Tagname</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method_camelCase">
+                                    <h4>
+                                        <a name="method_camelCase">camelCase</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        String
+                                            <strong property="yui:name">camelCase</strong>
+                                           (
+                                                
+                                                        
+                                                         string
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            A Helper Function for camelCasing Strings which have hyphens in it (for example: 'foo-bar-baz' would become 'fooBarBaz').
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">string</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The String you want to camelcase</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        String
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">A String without hypens where every Character directly after a hyphen is camelcased.</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_data">
+                                    <h4>
+                                        <a name="method_data">data</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Mixed
+                                            <strong property="yui:name">data</strong>
+                                           (
+                                                
+                                                        
+                                                         el
+                                                    
+                                                
+                                                        , 
+                                                         key
+                                                    
+                                                
+                                                        , 
+                                                         optVal
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            A Wrapper Function for getting and setting custom data-* Attributes on Dom Elements
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">el</span>
+                                                        &lt;<span property="yui:type">Element</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Element on which you want operate</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">key</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: If you don't provide a Key and optVal you will return an Object containing all data-* Properties (camelCased). Otherwise you could provide a Key to get or set a specific Attribute.</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">optVal</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: If you don't specify a value, the current data-* Value for the given Key is returned. Otherwise you can set the Value</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Mixed
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Depends on how many Parameters you specify you get either an Object containing all data-* Values or the specific Value you've get/set.</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method_getData">
+                                    <h4>
+                                        <a name="method_getData">getData</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        String
+                                            <strong property="yui:name">getData</strong>
+                                           (
+                                                
+                                                        
+                                                         el
+                                                    
+                                                
+                                                        , 
+                                                         string
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            A Helper Function for getting the Value of an data-* Attribute
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">el</span>
+                                                        &lt;<span property="yui:type">Element</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Dom Element on which you operate</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">string</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Key of the data-* Attribute you want to read</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        String
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">The Value from the custom data-* Attribute</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method_getSetData">
+                                    <h4>
+                                        <a name="method_getSetData">getSetData</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        Mixed
+                                            <strong property="yui:name">getSetData</strong>
+                                           (
+                                                
+                                                        
+                                                         el
+                                                    
+                                                
+                                                        , 
+                                                         key
+                                                    
+                                                
+                                                        , 
+                                                         optVal
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            A Helper Function for setting the Value of an data-* Attribute
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">el</span>
+                                                        &lt;<span property="yui:type">Element</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Element on which you want operate</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">key</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: If you don't provide a Key and optVal you will return an Object containing all data-* Properties (camelCased). Otherwise you could provide a Key to get or set a specific Attribute.</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">optVal</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: If you don't specify a value, the current data-* Value for the given Key is returned. Otherwise you can set the Value</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Mixed
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Depends on how many Parameters you specify you get either an Object containing all data-* Values or the specific Value you've get/set.</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method_hyphenate">
+                                    <h4>
+                                        <a name="method_hyphenate">hyphenate</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        String
+                                            <strong property="yui:name">hyphenate</strong>
+                                           (
+                                                
+                                                        
+                                                         string
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            A Helper Function for hyphenating Strings which are camelCased (for example: 'fooBarBaz' would become 'foo-bar-baz').
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">string</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The String you want to hyphenate</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        String
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">A lowercased String with hyphens before every Character which was before uppercased.</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_query">
+                                    <h4>
+                                        <a name="method_query">query</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        [NodeList]
+                                            <strong property="yui:name">query</strong>
+                                           (
+                                                
+                                                        
+                                                         selector
+                                                    
+                                                
+                                                        , 
+                                                         scope
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Returns Elements using a CSS Selector Query
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">selector</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Any CSS Selector. For Example: a[href="#"] or p > div > .foo.bar ~ span</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">scope</span>
+                                                        &lt;<span property="yui:type">Element</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: You could provide a Scope of an Element to search only inside that Scope for Elements</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        [NodeList]
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns a NodeList of Elements which match the given Selector</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="private" rel="yui:method" resource="#method_setData">
+                                    <h4>
+                                        <a name="method_setData">setData</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                         private 
+                                        
+                                        
+                                        String
+                                            <strong property="yui:name">setData</strong>
+                                           (
+                                                
+                                                        
+                                                         el
+                                                    
+                                                
+                                                        , 
+                                                         string
+                                                    
+                                                
+                                                        , 
+                                                         val
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            A Helper Function for setting the Value of an data-* Attribute
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">el</span>
+                                                        &lt;<span property="yui:type">Element</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Dom Element on which you operate</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">string</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Key of the data-* Attribute you want to set</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">val</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Value you want to write in the data-* Attribute</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        String
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">The Value from the custom data-* Attribute</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_setSelectorEngine">
+                                    <h4>
+                                        <a name="method_setSelectorEngine">setSelectorEngine</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setSelectorEngine</strong>
+                                           (
+                                                
+                                                        
+                                                         engine
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            If the Browser doesn't support querySelectorAll add the Method setSelectorEngine to domtools which replaces the noop function selectorEngine with i.e. Sizzle or something else.
+This Method will only be avaialable if the Browser doesn't support querySelectorAll, so you have to test if this method exists and if it's true you must call it and pass a CSS Selector Engine.
+Otherwise domtools.query and domtools.byClass will throw an Error everytime you call them.
+The easiest way: Create an init function for your application and check if domtools.setSelectorEngine exists, if not you could call your init function, otherwise load Sizzle and call then your init function.
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">engine</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Selector Engine you want to use</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+
+
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+
+                    </div>
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="module_dom.html" title="dom">dom</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="dom.classList.html" title="dom.classList">dom.classList</a></li>
+                                <li class=""><a href="dom.event.html" title="dom.event">dom.event</a></li>
+                                <li class=""><a href="dom.FormData.html" title="dom.FormData">dom.FormData</a></li>
+                                <li class=""><a href="dom.helper.html" title="dom.helper">dom.helper</a></li>
+                                <li class=""><a href="dom.xhr.html" title="dom.xhr">dom.xhr</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="domlib.js.html" title="domlib.js">domlib.js</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div id="methodsList" class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#method_byClass" title="byClass">byClass</a></li>
+                                <li class=""><a href="#method_byId" title="byId">byId</a></li>
+                                <li class=""><a href="#method_byName" title="byName">byName</a></li>
+                                <li class=""><a href="#method_byTagName" title="byTagName">byTagName</a></li>
+                                <li class="private"><a href="#method_camelCase" title="camelCase">camelCase</a></li>
+                                <li class=""><a href="#method_data" title="data">data</a></li>
+                                <li class="private"><a href="#method_getData" title="getData">getData</a></li>
+                                <li class="private"><a href="#method_getSetData" title="getSetData">getSetData</a></li>
+                                <li class="private"><a href="#method_hyphenate" title="hyphenate">hyphenate</a></li>
+                                <li class=""><a href="#method_query" title="query">query</a></li>
+                                <li class="private"><a href="#method_setData" title="setData">setData</a></li>
+                                <li class=""><a href="#method_setSelectorEngine" title="setSelectorEngine">setSelectorEngine</a></li>
+                        </ul>
+                    </div>
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2012 Björn Brauer
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "dom.html#method_byClass", "access": "", "host": "dom", "type": "method", "name": "byClass"}, {"url": "dom.html#method_byId", "access": "", "host": "dom", "type": "method", "name": "byId"}, {"url": "dom.html#method_byName", "access": "", "host": "dom", "type": "method", "name": "byName"}, {"url": "dom.html#method_byTagName", "access": "", "host": "dom", "type": "method", "name": "byTagName"}, {"url": "dom.html#method_camelCase", "access": "private", "host": "dom", "type": "method", "name": "camelCase"}, {"url": "dom.html#method_data", "access": "", "host": "dom", "type": "method", "name": "data"}, {"url": "dom.html#method_getData", "access": "private", "host": "dom", "type": "method", "name": "getData"}, {"url": "dom.html#method_getSetData", "access": "private", "host": "dom", "type": "method", "name": "getSetData"}, {"url": "dom.html#method_hyphenate", "access": "private", "host": "dom", "type": "method", "name": "hyphenate"}, {"url": "dom.html#method_query", "access": "", "host": "dom", "type": "method", "name": "query"}, {"url": "dom.html#method_setData", "access": "private", "host": "dom", "type": "method", "name": "setData"}, {"url": "dom.html#method_setSelectorEngine", "access": "", "host": "dom", "type": "method", "name": "setSelectorEngine"}];
+</script>
+</body>
+</html>

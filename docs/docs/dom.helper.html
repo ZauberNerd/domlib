@@ -1,0 +1,264 @@
+<!DOCTYPE HTML>
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: dom  dom.helper  </title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1326369229.93" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1326369229.93" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1326369229.93"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1326369229.93"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="'https://github.com/ZauberNerd/domlib'" title="domlib">domlib</a></h1>
+        <h3>dom&nbsp; <span class="subtitle">0.0.1</span></h3>
+        <a href="./index.html" title="domlib">domlib</a> 
+            &gt; <a href="./module_dom.html" title="dom">dom</a>
+                 &gt; dom.helper 
+                
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <h2>
+                        
+
+                        
+                        
+                            Class <b property="yui:name">dom.helper</b>
+                        <span class="extends">
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        Submodule for some helper functions
+                    </div>
+
+                    
+                    <div rel="yui:properties" resource="#properties">
+
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:method" resource="#method_loadScript">
+                                    <h4>
+                                        <a name="method_loadScript">loadScript</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Boolean
+                                            <strong property="yui:name">loadScript</strong>
+                                           (
+                                                
+                                                        
+                                                         url
+                                                    
+                                                
+                                                        , 
+                                                         id
+                                                    
+                                                
+                                                        , 
+                                                         callback
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Method for loading Javascript Files asynchronously
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">url</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> the Url of the Script that should be loaded</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">id</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> A unique Name to prevent loading the same file twice (this ID will be used as a Dom ID)</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">callback</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: A Callback Function which should be executed when the Script is fully loaded (the callback gets also executed if the file is already loaded)</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Boolean
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns false if the Script is already loaded</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_once">
+                                    <h4>
+                                        <a name="method_once">once</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Function
+                                            <strong property="yui:name">once</strong>
+                                           (
+                                                
+                                                        
+                                                         fn
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Method that takes a function and returns a function which can only be executed once
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">fn</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Function you want to 'protect' for executing more than once</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Function
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns a Function which can only be executed once (deletes the reference to the original function and fails silently)</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+
+
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+
+                    </div>
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="module_dom.html" title="dom">dom</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="dom.classList.html" title="dom.classList">dom.classList</a></li>
+                                <li class=""><a href="dom.event.html" title="dom.event">dom.event</a></li>
+                                <li class=""><a href="dom.FormData.html" title="dom.FormData">dom.FormData</a></li>
+                                <li class="selected"><a href="dom.helper.html" title="dom.helper">dom.helper</a></li>
+                                <li class=""><a href="dom.xhr.html" title="dom.xhr">dom.xhr</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="domlib.js.html" title="domlib.js">domlib.js</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div id="methodsList" class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#method_loadScript" title="loadScript">loadScript</a></li>
+                                <li class=""><a href="#method_once" title="once">once</a></li>
+                        </ul>
+                    </div>
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2012 Björn Brauer
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "dom.classList.html#method_add", "access": "", "host": "dom.classList", "type": "method", "name": "add"}, {"url": "dom.html#method_byClass", "access": "", "host": "dom", "type": "method", "name": "byClass"}, {"url": "dom.html#method_byId", "access": "", "host": "dom", "type": "method", "name": "byId"}, {"url": "dom.html#method_byName", "access": "", "host": "dom", "type": "method", "name": "byName"}, {"url": "dom.html#method_byTagName", "access": "", "host": "dom", "type": "method", "name": "byTagName"}, {"url": "dom.html#method_camelCase", "access": "private", "host": "dom", "type": "method", "name": "camelCase"}, {"url": "dom.classList.html#property_classes", "access": "private", "host": "dom.classList", "type": "property", "name": "classes"}, {"url": "dom.classList.html#method_ClassList", "access": "private", "host": "dom.classList", "type": "method", "name": "ClassList"}, {"url": "dom.event.html#method_connect", "access": "", "host": "dom.event", "type": "method", "name": "connect"}, {"url": "dom.classList.html#method_contains", "access": "", "host": "dom.classList", "type": "method", "name": "contains"}, {"url": "dom.html#method_data", "access": "", "host": "dom", "type": "method", "name": "data"}, {"url": "dom.event.html#method_disconnect", "access": "", "host": "dom.event", "type": "method", "name": "disconnect"}, {"url": "dom.classList.html#method_getConstructor", "access": "private", "host": "dom.classList", "type": "method", "name": "getConstructor"}, {"url": "dom.html#method_getData", "access": "private", "host": "dom", "type": "method", "name": "getData"}, {"url": "dom.classList.html#method_getIE7Constructor", "access": "private", "host": "dom.classList", "type": "method", "name": "getIE7Constructor"}, {"url": "dom.classList.html#method_getRegularConstructor", "access": "private", "host": "dom.classList", "type": "method", "name": "getRegularConstructor"}, {"url": "dom.html#method_getSetData", "access": "private", "host": "dom", "type": "method", "name": "getSetData"}, {"url": "dom.html#method_hyphenate", "access": "private", "host": "dom", "type": "method", "name": "hyphenate"}, {"url": "dom.helper.html#method_loadScript", "access": "", "host": "dom.helper", "type": "method", "name": "loadScript"}, {"url": "dom.helper.html#method_once", "access": "", "host": "dom.helper", "type": "method", "name": "once"}, {"url": "dom.event.html#method_preventDefault", "access": "", "host": "dom.event", "type": "method", "name": "preventDefault"}, {"url": "dom.html#method_query", "access": "", "host": "dom", "type": "method", "name": "query"}, {"url": "dom.classList.html#method_remove", "access": "", "host": "dom.classList", "type": "method", "name": "remove"}, {"url": "dom.html#method_setData", "access": "private", "host": "dom", "type": "method", "name": "setData"}, {"url": "dom.html#method_setSelectorEngine", "access": "", "host": "dom", "type": "method", "name": "setSelectorEngine"}, {"url": "dom.classList.html#method_toggle", "access": "", "host": "dom.classList", "type": "method", "name": "toggle"}, {"url": "dom.classList.html#method_toString", "access": "", "host": "dom.classList", "type": "method", "name": "toString"}, {"url": "dom.classList.html#method__updateClassName", "access": "protected", "host": "dom.classList", "type": "method", "name": "_updateClassName"}];
+</script>
+</body>
+</html>

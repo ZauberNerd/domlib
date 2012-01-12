@@ -1,0 +1,386 @@
+<!DOCTYPE HTML>
+<html xmlns:yui="http://yuilibrary.com/rdf/1.0/yui.rdf#">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<title>API: dom  dom.xhr  </title>
+
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1326369229.93" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1326369229.93" />
+
+    <script type="text/javascript" src="assets/api-js?stamp=1326369229.93"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1326369229.93"></script>
+</head>
+
+<body id="yahoo-com">
+
+<div id="doc3" class="yui-t2">
+	<div id="hd">
+        <h1><a href="'https://github.com/ZauberNerd/domlib'" title="domlib">domlib</a></h1>
+        <h3>dom&nbsp; <span class="subtitle">0.0.1</span></h3>
+        <a href="./index.html" title="domlib">domlib</a> 
+            &gt; <a href="./module_dom.html" title="dom">dom</a>
+                 &gt; dom.xhr 
+                
+        <form onsubmit="return false">
+            <div id="propertysearch">
+                Search: <input autocomplete="off" id="searchinput" />
+                <div id="searchresults">
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div id="bd">
+		<div id="yui-main">
+			<div class="yui-b">
+            <form action="#" name="yui-classopts-form" method="get" id="yui-classopts-form">
+                <fieldset>
+                    <legend>Filters</legend>
+                <span class="classopts"><input type="checkbox" name="show_private" id="show_private" /> <label for="show_private">Show Private</label></span>
+                <span class="classopts"><input type="checkbox" name="show_protected" id="show_protected" /> <label for="show_protected">Show Protected</label></span>
+                <span class="classopts"><input type="checkbox" name="show_deprecated" id="show_deprecated" /> <label for="show_deprecated">Show Deprecated</label></span>
+                </fieldset>
+            </form>
+
+                    <h2>
+                        
+
+                        
+                        
+                            Class <b property="yui:name">dom.xhr</b>
+                        <span class="extends">
+                        </span>
+
+                    </h2>
+                    <!-- class tree goes here -->
+                    
+                
+  
+
+                    <div class="summary description" property="yui:description">
+                        Submodule for making Ajax-Calls
+                    </div>
+
+                    
+                    <div rel="yui:properties" resource="#properties">
+
+                    </div>
+
+                    <div rel="yui:methods" resource="#methods">
+                        <div class="section method details">
+                            <h3 id="methods">Methods</h3>
+                            <div class="content">
+                                    <div class="" rel="yui:method" resource="#method_get">
+                                    <h4>
+                                        <a name="method_get">get</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Object
+                                            <strong property="yui:name">get</strong>
+                                           (
+                                                
+                                                        
+                                                         url
+                                                    
+                                                
+                                                        , 
+                                                         success
+                                                    
+                                                
+                                                        , 
+                                                         error
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Method / Shortcut for making Ajax Get Requestes
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">url</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Url to which the Ajax call should be made</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">success</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Success Callback will be called if the Request was made Successful (readyState === 4, httpStatus === 200).</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">error</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Error Callback will be called if the Server responded with a different StatusCode than 200</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Object
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns the XMLHttpRequest Object for that Request.</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_post">
+                                    <h4>
+                                        <a name="method_post">post</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Object
+                                            <strong property="yui:name">post</strong>
+                                           (
+                                                
+                                                        
+                                                         url
+                                                    
+                                                
+                                                        , 
+                                                         data
+                                                    
+                                                
+                                                        , 
+                                                         success
+                                                    
+                                                
+                                                        , 
+                                                         error
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Method / Shortcut for making Ajax Post Requestes
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">url</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Url to which the Ajax call should be made</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">data</span>
+                                                        &lt;<span property="yui:type">Mixed</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: The data you want to send</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">success</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Success Callback will be called if the Request was made Successful (readyState === 4, httpStatus === 200).</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">error</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Error Callback will be called if the Server responded with a different StatusCode than 200</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Object
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns the XMLHttpRequest Object for that Request.</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_request">
+                                    <h4>
+                                        <a name="method_request">request</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Object
+                                            <strong property="yui:name">request</strong>
+                                           (
+                                                
+                                                        
+                                                         method
+                                                    
+                                                
+                                                        , 
+                                                         url
+                                                    
+                                                
+                                                        , 
+                                                         data
+                                                    
+                                                
+                                                        , 
+                                                         success
+                                                    
+                                                
+                                                        , 
+                                                         error
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Method for making Ajax Requests
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">method</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Method that should be used for the request ('get' or 'post', will be automatically transformed to uppercase).</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">url</span>
+                                                        &lt;<span property="yui:type">String</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Url to which the Ajax call should be made</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">data</span>
+                                                        &lt;<span property="yui:type">Mixed</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> Optional: The data you want to send</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">success</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Success Callback will be called if the Request was made Successful (readyState === 4, httpStatus === 200).</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">error</span>
+                                                        &lt;<span property="yui:type">Function</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> The Error Callback will be called if the Server responded with a different StatusCode than 200</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Object
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Returns the XMLHttpRequest Object for that Request.</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div rel="yui:events" resource="#events">
+
+
+                    </div>
+
+                    <div rel="yui:attributes" resource="#configattributes">
+
+                    </div>
+
+			</div>
+		</div>
+		<div class="yui-b">
+            <div class="nav">
+
+                    <div id="moduleList" class="module">
+                        <h4>Modules</h4>
+                        <ul class="content">
+                                <li class="selected"><a href="module_dom.html" title="dom">dom</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="classList" class="module">
+                        <h4>Classes</h4>
+                        <ul class="content">
+                                <li class=""><a href="dom.html" title="dom">dom</a></li>
+                                <li class=""><a href="dom.classList.html" title="dom.classList">dom.classList</a></li>
+                                <li class=""><a href="dom.event.html" title="dom.event">dom.event</a></li>
+                                <li class=""><a href="dom.FormData.html" title="dom.FormData">dom.FormData</a></li>
+                                <li class=""><a href="dom.helper.html" title="dom.helper">dom.helper</a></li>
+                                <li class="selected"><a href="dom.xhr.html" title="dom.xhr">dom.xhr</a></li>
+                        </ul>
+                    </div>
+
+                    <div id="fileList" class="module">
+                        <h4>Files</h4>
+                        <ul class="content">        
+                                <li class=""><a href="domlib.js.html" title="domlib.js">domlib.js</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div id="methodsList" class="module">
+                        <h4>Methods</h4>
+                        <ul class="content">        
+                                <li class=""><a href="#method_get" title="get">get</a></li>
+                                <li class=""><a href="#method_post" title="post">post</a></li>
+                                <li class=""><a href="#method_request" title="request">request</a></li>
+                        </ul>
+                    </div>
+
+
+
+            </div>
+		</div>
+	</div>
+	<div id="ft">
+        <hr />
+        Copyright &copy; 2012 Björn Brauer
+	</div>
+</div>
+<script type="text/javascript">
+    ALL_YUI_PROPS = [{"url": "dom.classList.html#method_add", "access": "", "host": "dom.classList", "type": "method", "name": "add"}, {"url": "dom.html#method_byClass", "access": "", "host": "dom", "type": "method", "name": "byClass"}, {"url": "dom.html#method_byId", "access": "", "host": "dom", "type": "method", "name": "byId"}, {"url": "dom.html#method_byName", "access": "", "host": "dom", "type": "method", "name": "byName"}, {"url": "dom.html#method_byTagName", "access": "", "host": "dom", "type": "method", "name": "byTagName"}, {"url": "dom.html#method_camelCase", "access": "private", "host": "dom", "type": "method", "name": "camelCase"}, {"url": "dom.classList.html#property_classes", "access": "private", "host": "dom.classList", "type": "property", "name": "classes"}, {"url": "dom.classList.html#method_ClassList", "access": "private", "host": "dom.classList", "type": "method", "name": "ClassList"}, {"url": "dom.event.html#method_connect", "access": "", "host": "dom.event", "type": "method", "name": "connect"}, {"url": "dom.classList.html#method_contains", "access": "", "host": "dom.classList", "type": "method", "name": "contains"}, {"url": "dom.html#method_data", "access": "", "host": "dom", "type": "method", "name": "data"}, {"url": "dom.event.html#method_disconnect", "access": "", "host": "dom.event", "type": "method", "name": "disconnect"}, {"url": "dom.xhr.html#method_get", "access": "", "host": "dom.xhr", "type": "method", "name": "get"}, {"url": "dom.classList.html#method_getConstructor", "access": "private", "host": "dom.classList", "type": "method", "name": "getConstructor"}, {"url": "dom.html#method_getData", "access": "private", "host": "dom", "type": "method", "name": "getData"}, {"url": "dom.classList.html#method_getIE7Constructor", "access": "private", "host": "dom.classList", "type": "method", "name": "getIE7Constructor"}, {"url": "dom.classList.html#method_getRegularConstructor", "access": "private", "host": "dom.classList", "type": "method", "name": "getRegularConstructor"}, {"url": "dom.html#method_getSetData", "access": "private", "host": "dom", "type": "method", "name": "getSetData"}, {"url": "dom.html#method_hyphenate", "access": "private", "host": "dom", "type": "method", "name": "hyphenate"}, {"url": "dom.helper.html#method_loadScript", "access": "", "host": "dom.helper", "type": "method", "name": "loadScript"}, {"url": "dom.helper.html#method_once", "access": "", "host": "dom.helper", "type": "method", "name": "once"}, {"url": "dom.xhr.html#method_post", "access": "", "host": "dom.xhr", "type": "method", "name": "post"}, {"url": "dom.event.html#method_preventDefault", "access": "", "host": "dom.event", "type": "method", "name": "preventDefault"}, {"url": "dom.html#method_query", "access": "", "host": "dom", "type": "method", "name": "query"}, {"url": "dom.classList.html#method_remove", "access": "", "host": "dom.classList", "type": "method", "name": "remove"}, {"url": "dom.xhr.html#method_request", "access": "", "host": "dom.xhr", "type": "method", "name": "request"}, {"url": "dom.html#method_setData", "access": "private", "host": "dom", "type": "method", "name": "setData"}, {"url": "dom.html#method_setSelectorEngine", "access": "", "host": "dom", "type": "method", "name": "setSelectorEngine"}, {"url": "dom.classList.html#method_toggle", "access": "", "host": "dom.classList", "type": "method", "name": "toggle"}, {"url": "dom.classList.html#method_toString", "access": "", "host": "dom.classList", "type": "method", "name": "toString"}, {"url": "dom.classList.html#method__updateClassName", "access": "protected", "host": "dom.classList", "type": "method", "name": "_updateClassName"}];
+</script>
+</body>
+</html>
