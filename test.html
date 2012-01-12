@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Dom Library Tests</title>
+	<link href="qunit/qunit.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<h1 id="qunit-header">QUnit tests for Dom library</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture">
+		<div class="querytest" id="querytestfixture">
+			<header id="testheader">
+				<h1><span>test</span></h1>
+			</header>
+			<article>
+				<p class="firstchild">lorem</p>
+				<p data-test="test">lorem ipsum</p>
+				<p data-test="foo">dolor sit amet</p>
+				<div>
+					<input type="checkbox" class="checkbox first second">
+					<input type="radio" checked>
+					<input type="text" disabled>
+					<time data-test="bar-baz"></time>
+				</div>
+				<p lang="en">end</p>
+			</article>
+		</div>
+		<div id="datatest" data-simple="test" data-hyphen-splitted="result" data-src="foo" data-really-long-name="longresult"></div>
+		<div id="domnametest">
+			<input name="dom-testname-1">
+			<img name="dom-testname-2">
+			<img name="dom-testname-2">
+		</div>
+		<div id="classlisttest" class="foo bar baz"></div>
+	</div>
+	<!--<script src="libs/ddr-ecma5.js"></script>-->
+	<script src="qunit/qunit.js"></script>
+	<script src="src/domlib.js"></script>
+	<script src="test/test.domlib.js"></script>
+</body>
+</html>
