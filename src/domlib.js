@@ -528,10 +528,10 @@
         },
         /**
          * Small FormData polyfill (doesn't work with input type="file" / binary data)
-         * @class _FormData
+         * @class FormData
          * @module dom
          * @namespace dom
-         * @submodule _FormData
+         * @submodule FormData
          * @constructor
          * @param {Element} form Optional: You could pass a Form-Element to the Constructor to create an FormData Object from it
          */
