@@ -25,14 +25,14 @@
              * @param {String} id The ID of the Element you want to reference
              * @return {Element} If there is an Element with the given ID it will be returned - otherwise the returnvalue is undefined
              */
-            'byId': function (id) { return doc.getElementById(id); },
+            byId: function (id) { return doc.getElementById(id); },
             /**
              * Returns Elements by their Name
              * @method byName
              * @param {String} name The Name of the Element you want to reference
              * @return {[NodeList]} Returns a NodeList of Elements which match the given Name
              */
-            'byName': function (name) { return doc.getElementsByName(name); },
+            byName: function (name) { return doc.getElementsByName(name); },
             /**
              * Returns Elements by their Tagname
              * @method byTagName
@@ -40,7 +40,7 @@
              * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements
              * @return {[NodeList]} Returns a NodeList of Elements which match the given Tagname
              */
-            'byTagName': function (tag, scope) { return typeof scope !== 'undefined' ? scope.getElementsByTagName(tag) : doc.getElementsByTagName(tag); }
+            byTagName: function (tag, scope) { return typeof scope !== 'undefined' ? scope.getElementsByTagName(tag) : doc.getElementsByTagName(tag); }
         };
         /**
          * Returns Elements using a CSS Selector Query
@@ -49,7 +49,7 @@
          * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements
          * @return {[NodeList]} Returns a NodeList of Elements which match the given Selector
          */
-        selectors['query'] = typeof doc.querySelectorAll === 'undefined' ?
+        selectors.query = typeof doc.querySelectorAll === 'undefined' ?
                 function (selector, scope) { return selectorEngine(selector, scope || doc); } :
                 function (selector, scope) { return typeof scope !== 'undefined' ? scope.querySelectorAll(selector) : doc.querySelectorAll(selector); };
         /**
@@ -59,7 +59,7 @@
          * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements
          * @return {[NodeList]} Returns a NodeList of Elements which have the given className
          */
-        selectors['byClass'] = typeof doc.getElementsByClassName === 'undefined' ?
+        selectors.byClass = typeof doc.getElementsByClassName === 'undefined' ?
                 typeof doc.querySelectorAll === 'undefined' ?
                         function (classname, scope) { return selectorEngine('.' + classname, scope || doc); } :
                         function (classname, scope) { return typeof scope !== 'undefined' ? scope.querySelectorAll('.' + classname) : doc.querySelectorAll('.' + classname); } :
@@ -74,7 +74,7 @@
          * @param {Function} engine The Selector Engine you want to use
          */
         if (typeof doc.querySelectorAll === 'undefined') {
-            selectors['setSelectorEngine'] = function (engine) {
+            selectors.setSelectorEngine = function (engine) {
                 selectorEngine = engine;
             };
         }
@@ -89,7 +89,7 @@
      * @param {String} optVal Optional: If you don't specify a value, the current data-* Value for the given Key is returned. Otherwise you can set the Value
      * @return {Mixed} Depends on how many Parameters you specify you get either an Object containing all data-* Values or the specific Value you've get/set.
      */
-    domtools['data'] = (function () {
+    domtools.data = (function () {
         var fn;
         if (!('dataset' in doc.createElement('a'))) {
             fn = (function () {
@@ -182,7 +182,7 @@
      * @static
      * @param {Element} el
      */
-    domtools['classList'] = (function () {
+    domtools.classList = (function () {
         var classListPolyfill = {},
             ClassList;
         if (!('classList' in doc.createElement('a'))) {
@@ -267,7 +267,7 @@
              * @method add
              * @param {String} token Name of the class which should be added
              */
-            ClassList.prototype['add'] = function (token) {
+            ClassList.prototype.add = function (token) {
                 if (!this.contains(token)) {
                     this.push(token);
                     this._updateClassName();
@@ -278,7 +278,7 @@
              * @method remove
              * @param {String} token Name of the class which should be removed
              */
-            ClassList.prototype['remove'] = function (token) {
+            ClassList.prototype.remove = function (token) {
                 var index = this.indexOf(token.trim());
                 if (index !== -1) {
                     this.splice(index, 1);
@@ -291,7 +291,7 @@
              * @param {String} token Name of the class which you want to toggle
              * @return {Boolean} Returns true if the class was added or false when the class was removed
              */
-            ClassList.prototype['toggle'] = function (token) {
+            ClassList.prototype.toggle = function (token) {
                 var ret;
                 if (this.contains(token)) {
                     this.remove(token);
@@ -309,13 +309,13 @@
              * @param {String} token Name of the class to be checked
              * @return {Boolean} Returns true if the Element already has the given Class
              */
-            ClassList.prototype['contains'] = function (token) { return this.indexOf(token.trim()) !== -1; };
+            ClassList.prototype.contains = function (token) { return this.indexOf(token.trim()) !== -1; };
             /**
              * Creates a String of the classes contained in the classList separated by whitespaces to write them into the className property of an Element
              * @method toString
              * @return {String} String of the classes contained in the classList separated by whitespaces
              */
-            ClassList.prototype['toString'] = function () { return this.join(' '); };
+            ClassList.prototype.toString = function () { return this.join(' '); };
             if (classListPolyfill.lteie7 === true) {
                 return function (el) { var cl = new ClassList(); cl.init(el); return cl; };
             }
@@ -332,7 +332,7 @@
      * @submodule event
      * @class event
      */
-    domtools['event'] = (function () {
+    domtools.event = (function () {
         var eventhandler = {
             /**
              * Shorthand Function for event.preventDefault and event.stopPropagation.
@@ -340,7 +340,7 @@
              * @param {Event} ev The Eventobject
              * @param {Boolean} stopPropagation Optional: Pass true, if you also want to stop the Event from bubbling up
              */
-            'preventDefault': function (ev, stopPropagation) {
+            preventDefault: function (ev, stopPropagation) {
                 var fn;
                 if (typeof ev !== 'undefined' && ev.preventDefault) {
                     fn = function (e, stopPropagation) {
@@ -364,20 +364,20 @@
              * @param {String} event The Eventtype you want listen for
              * @param {Function} listener The Listener Callback which will be exected when the Event occurs
              */
-            eventhandler['connect'] = function (el, event, listener) { el && el.addEventListener(event, listener, false); };
+            eventhandler.connect = function (el, event, listener) { el && el.addEventListener(event, listener, false); };
             /**
              * Method for deregistering Callback Functions to Dom Events
              * @param {Element} el The Element on which the listener is currently bound
              * @param {String} event The Eventtype the listener is registered for
              * @param {Function} listener The Listener Callback which was registred for this event
              */
-            eventhandler['disconnect'] = function (el, event, listener) { el && el.removeEventListener(event, listener, false); };
+            eventhandler.disconnect = function (el, event, listener) { el && el.removeEventListener(event, listener, false); };
         } else if (win.attachEvent) {
-            eventhandler['connect'] = function (el, event, listener) { el && el.attachEvent('on' + event, listener); };
-            eventhandler['disconnect'] = function (el, event, listener) { el && el.detachEvent('on' + event, listener); };
+            eventhandler.connect = function (el, event, listener) { el && el.attachEvent('on' + event, listener); };
+            eventhandler.disconnect = function (el, event, listener) { el && el.detachEvent('on' + event, listener); };
         } else {
-            eventhandler['connect'] = function (el, event, listener) { el['on' + event] = listener; };
-            eventhandler['disconnect'] = function (el, event, listener) { delete el['on' + event]; };
+            eventhandler.connect = function (el, event, listener) { el['on' + event] = listener; };
+            eventhandler.disconnect = function (el, event, listener) { delete el['on' + event]; };
         }
         return eventhandler;
     }());
@@ -389,14 +389,14 @@
      * @submodule helper
      * @class helper
      */
-    domtools['helper'] = {
+    domtools.helper = {
         /**
          * Method that takes a function and returns a function which can only be executed once
          * @method once
          * @param {Function} fn The Function you want to 'protect' for executing more than once
          * @return {Function} Returns a Function which can only be executed once (deletes the reference to the original function and fails silently)
          */
-        'once': function (fn) {
+        once: function (fn) {
             return function () {
                 var callback = fn;
                 fn = null;
@@ -411,7 +411,7 @@
          * @param {Function} callback Optional: A Callback Function which should be executed when the Script is fully loaded (the callback gets also executed if the file is already loaded)
          * @return {Boolean} Returns false if the Script is already loaded
          */
-        'loadScript': function (url, id, callback) {
+        loadScript: function (url, id, callback) {
             if (typeof id === 'string' && doc.getElementById(id)) {
                 // early exit if the script is already loaded
                 callback && callback();
@@ -426,7 +426,7 @@
             js.id = id;
             js.src = url;
             js.async = true;
-            // standard conform browsers fire onload event. IE fires onreadystatechange events and sometimes only 'complete' or 'loaded' or both or something else. Stupid IE
+            // standard conform browsers fire onload event. IE fires onreadystatechange events and sometimes only 'complete' or 'loaded'
             js.onload = js.onreadystatechange = function () {
                 if (typeof this.readyState === 'undefined' || this.readyState === 'complete' || this.readyState === 'loaded') {
                     callbackonce();
@@ -443,7 +443,7 @@
      * @submodule xhr
      * @class xhr
      */
-    domtools['xhr'] = {
+    domtools.xhr = {
         /**
          * Method for making Ajax Requests
          * @method request
@@ -454,9 +454,8 @@
          * @param {Function} error The Error Callback will be called if the Server responded with a different StatusCode than 200
          * @return {Object} Returns the XMLHttpRequest Object for that Request.
          */
-        'request': function (method, url, data, success, error) {
+        request: function (method, url, data, success, error) {
             var headers = [['X-Requested-With', 'XMLHttpRequest']],
-                // Since IE7 already has XMLHttpRequest and i don't support IE6 anymore i am able to get rid of those ugly ActiveX Objects for making Ajax Request
                 xhr = new win.XMLHttpRequest();
             // adjust parameters
             if (typeof data === 'function') {
@@ -464,12 +463,12 @@
                 success = data;
                 data = null;
             } else if (typeof method === 'object') {
-                url = method['url'];
-                data = method['data'] || null;
-                success = method['success'];
-                error = method['error'];
-                headers = headers.concat(method['headers'] || []);
-                method = method['method'];
+                url = method.url;
+                data = method.data || null;
+                success = method.success;
+                error = method.error;
+                headers = headers.concat(method.headers || []);
+                method = method.method;
             }
             xhr.open(method.toUpperCase(), url, true);
             headers.forEach(function (header) {
@@ -500,8 +499,8 @@
          * @param {Function} error The Error Callback will be called if the Server responded with a different StatusCode than 200
          * @return {Object} Returns the XMLHttpRequest Object for that Request.
          */
-        'get': function (url, callback, error) {
-            return this.request('GET', url, callback, error);
+        get: function (url, callback, error) {
+            return this.request('GET', url, null, callback, error);
         },
         /**
          * Method / Shortcut for making Ajax Post Requestes
@@ -512,11 +511,11 @@
          * @param {Function} error The Error Callback will be called if the Server responded with a different StatusCode than 200
          * @return {Object} Returns the XMLHttpRequest Object for that Request.
          */
-        'post': function (url, data, callback, error) {
+        post: function (url, data, callback, error) {
             var headers;
             // if data is an instance of this.FormData and data._boundary is defined it's our polyfill and we need to set the required http headers
-            if (data instanceof this.FormData && typeof data['_boundary'] !== 'undefined') {
-                headers = [['Content-Type', data['_contentType']]];
+            if (data instanceof this.FormData && typeof data._boundary !== 'undefined') {
+                headers = [['Content-Type', data._contentType]];
             }
             return this.request({
                 method: 'POST',
@@ -536,7 +535,7 @@
          * @constructor
          * @param {Element} form Optional: You could pass a Form-Element to the Constructor to create an FormData Object from it
          */
-        'FormData': (function () {
+        FormData: (function () {
             var _FormData;
             if (typeof win.FormData === 'undefined') {
                 _FormData = function (form) {
@@ -545,9 +544,9 @@
                         Array.prototype.slice.call(domtools.byTagName('select', form)),
                         Array.prototype.slice.call(domtools.byTagName('textarea', form))
                     );
-                    this['_fields'] = [];
-                    this['_boundary'] = '----FormDataBoundary' + Math.random() * 10;
-                    this['_contentType'] = 'multipart/form-data; boundary=' + this['_boundary'];
+                    this._fields = [];
+                    this._boundary = '----FormDataBoundary' + Math.random() * 10;
+                    this._contentType = 'multipart/form-data; boundary=' + this._boundary;
                     inputs.forEach(function (field) {
                         var val;
                         if (field.type === 'checkbox' || field.type === 'radio') {
@@ -569,21 +568,21 @@
                  * @param {String} key The Key that should be used
                  * @param {Mixed} val The Value
                  */
-                _FormData.prototype['append'] = function (key, val) {
-                    this['_fields'].push([key, val]);
+                _FormData.prototype.append = function (key, val) {
+                    this._fields.push([key, val]);
                 };
                 /**
                  * Creating the multipart/form-data String
                  * @return {String} All Fields concatenated
                  */
-                _FormData.prototype['toString'] = function () {
+                _FormData.prototype.toString = function () {
                     var body = '';
-                    this['_fields'].forEach(function (field) {
-                        body += '--' + this['_boundary'] + '\r\n';
+                    this._fields.forEach(function (field) {
+                        body += '--' + this._boundary + '\r\n';
                         body += 'Content-Disposition: form-data; name="' + field[0] + '";\r\n\r\n';
                         body += field[1] + '\r\n';
                     }, this);
-                    body += '--' + this['_boundary'] + '--';
+                    body += '--' + this._boundary + '--';
                     return body;
                 };
                 return _FormData;
@@ -592,5 +591,5 @@
             }
         }())
     };
-    win['dom'] = domtools;
+    win.dom = domtools;
 }(window, document));
