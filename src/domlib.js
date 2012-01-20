@@ -253,11 +253,12 @@
                 LTEie7ClassListPolyFill.prototype.indexOf = Array.prototype.indexOf;
                 // We only extending the Array Object, so we need to create the own Methods and Properties which regulary sits in the Constructor function as prototypes too.
                 LTEie7ClassListPolyFill.prototype.init = function (el) {
-                    this._dom_int_classes = el.className.trim();
-                    this.push.apply(this, (this._dom_int_classes ? this._dom_int_classes.split(/\s+/) : []));
+                    var classes = el.className.trim();
+                    this._dom_int_el = el;
+                    this.push.apply(this, (this.classes ? this.classes.split(/\s+/) : []));
                 };
                 LTEie7ClassListPolyFill.prototype._updateClassName = function () {
-                    this._dom_int_classes.className = this.toString();
+                    this._dom_int_el.className = this.toString();
                 };
                 return LTEie7ClassListPolyFill;
             };
@@ -412,16 +413,16 @@
          * @return {Boolean} Returns false if the Script is already loaded
          */
         loadScript: function (url, id, callback) {
-            if (typeof id === 'string' && doc.getElementById(id)) {
-                // early exit if the script is already loaded
-                callback && callback();
-                return false;
-            }
+            var queue = {};
             if (typeof url === 'undefined' || typeof id === 'undefined') {
                 throw new Error('You must provide an unique id and an url from where the script should be loaded!');
             }
+            if (typeof queue[id] === 'undefined') {
+                queue[id] = this.once(callback);
+            }  else {
+                return;
+            }
             var js = doc.createElement('script'),
-                callbackonce = this.once(callback),
                 fjs = doc.getElementsByTagName('script')[0];
             js.id = id;
             js.src = url;
@@ -429,7 +430,8 @@
             // standard conform browsers fire onload event. IE fires onreadystatechange events and sometimes only 'complete' or 'loaded'
             js.onload = js.onreadystatechange = function () {
                 if (typeof this.readyState === 'undefined' || this.readyState === 'complete' || this.readyState === 'loaded') {
-                    callbackonce();
+                    queue[id]();
+                    delete queue[id];
                 }
             };
             fjs.parentNode.insertBefore(js, fjs);
