@@ -589,7 +589,7 @@
             } else {
                 return win.FormData;
             }
-        }())
+        }());
     };
     win.dom = domtools;
 }(window, document));
