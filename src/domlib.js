@@ -148,8 +148,10 @@
                  */
                 function getSetData(el, key, optVal) {
                     if (typeof key !== 'undefined') {
+                        // if optVal is undefined, return the data-[key], otherwise set data[key] to optVal
                         return typeof optVal === 'undefined' ? getData(el, key) : setData(el, key, optVal);
                     } else {
+                        // if optVal and key is undefined iterate over all attributes and return all attribute values which starts with data-
                         var attrs = el.attributes,
                             len = attrs.length,
                             data = {};
@@ -245,6 +247,7 @@
              * @private
              */
             classListPolyfill.getIE7Constructor = function () {
+                // create an hidden iframe and pass it's Array Object back to our main window to extend it and use it as ClassList Constructor
                 var iframe = doc.createElement('iframe');
                 iframe.style.display = 'none';
                 doc.body.appendChild(iframe);
@@ -318,10 +321,13 @@
              */
             ClassList.prototype.toString = function () { return this.join(' '); };
             if (classListPolyfill.lteie7 === true) {
+                // if we are on an IE7 or below return our extended Array ClassList polyfill which needs special initialization
                 return function (el) { var cl = new ClassList(); cl.init(el); return cl; };
             }
+            // if we are in a Browser which doesn't natevily supports el.classList, return our regular ClassList Constructor
             return function (el) {return new ClassList(el); };
         } else {
+            // we are on a modern Browser which does have the native classList Implementation, so let's return it
             return function (el) { return el.classList; };
         }
     }());
@@ -359,6 +365,7 @@
             }
         };
         if (win.addEventListener) {
+            // Standard conform Browsers
             /**
              * Method for registering Callback Functions to Dom Events
              * @param {Element} el The Element on which the listener should be bound
@@ -374,9 +381,11 @@
              */
             eventhandler.disconnect = function (el, event, listener) { el && el.removeEventListener(event, listener, false); };
         } else if (win.attachEvent) {
+            // old IE Browsers
             eventhandler.connect = function (el, event, listener) { el && el.attachEvent('on' + event, listener); };
             eventhandler.disconnect = function (el, event, listener) { el && el.detachEvent('on' + event, listener); };
         } else {
+            // even older Browsers (not sure if it's still needed, since we won't support dinosaur Browsers)
             eventhandler.connect = function (el, event, listener) { el['on' + event] = listener; };
             eventhandler.disconnect = function (el, event, listener) { delete el['on' + event]; };
         }
@@ -455,7 +464,9 @@
          * @param {String} url The Url to which the Ajax call should be made
          * @param {Mixed} data Optional: The data you want to send
          * @param {Function} success The Success Callback will be called if the Request was made Successful (readyState === 4, httpStatus === 200).
+         * It gets called with 2 Parameters, first is responseText, second is the xhr Object used for this request.
          * @param {Function} error The Error Callback will be called if the Server responded with a different StatusCode than 200
+         * It gets called width 2 Parameters, first is HTTP Status Code, second is the xhr Object used for this request.
          * @return {Object} Returns the XMLHttpRequest Object for that Request.
          */
         request: function (method, url, data, success, error) {
@@ -484,7 +495,12 @@
                     if (this.status === 200) {
                         responseText = this.responseText;
                         if (this.getResponseHeader('Content-Type').split(';')[0] === 'application/json') {
-                            responseText = JSON.parse(responseText);
+                            // if response Content-Type is json, parse it and return the Javascript Object
+                            try {
+                                responseText = JSON.parse(responseText);
+                            } catch (e) {
+                                responseText = this.responseText;
+                            }
                         }
                         success && success(responseText, this);
                     } else {
