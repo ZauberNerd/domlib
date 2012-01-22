@@ -255,7 +255,7 @@
                 LTEie7ClassListPolyFill.prototype.init = function (el) {
                     var classes = el.className.trim();
                     this._dom_int_el = el;
-                    this.push.apply(this, (this.classes ? this.classes.split(/\s+/) : []));
+                    this.push.apply(this, (classes ? classes.split(/\s+/) : []));
                 };
                 LTEie7ClassListPolyFill.prototype._updateClassName = function () {
                     this._dom_int_el.className = this.toString();
@@ -412,30 +412,32 @@
          * @param {Function} callback Optional: A Callback Function which should be executed when the Script is fully loaded (the callback gets also executed if the file is already loaded)
          * @return {Boolean} Returns false if the Script is already loaded
          */
-        loadScript: function (url, id, callback) {
-            var queue = {};
-            if (typeof url === 'undefined' || typeof id === 'undefined') {
-                throw new Error('You must provide an unique id and an url from where the script should be loaded!');
-            }
-            if (typeof queue[id] === 'undefined') {
-                queue[id] = this.once(callback);
-            }  else {
-                return;
-            }
-            var js = doc.createElement('script'),
+        loadScript: (function () {
+            var queue = {},
                 fjs = doc.getElementsByTagName('script')[0];
-            js.id = id;
-            js.src = url;
-            js.async = true;
-            // standard conform browsers fire onload event. IE fires onreadystatechange events and sometimes only 'complete' or 'loaded'
-            js.onload = js.onreadystatechange = function () {
-                if (typeof this.readyState === 'undefined' || this.readyState === 'complete' || this.readyState === 'loaded') {
-                    queue[id]();
-                    delete queue[id];
+            return function (url, id, callback) {
+                if (typeof url === 'undefined' || typeof id === 'undefined') {
+                    throw new Error('You must provide an unique id and an url from where the script should be loaded!');
                 }
+                if (typeof queue[id] === 'undefined') {
+                    queue[id] = this.once(callback);
+                }  else {
+                    return;
+                }
+                var js = doc.createElement('script');
+                js.id = id;
+                js.src = url;
+                js.async = true;
+                // standard conform browsers fire onload event. IE fires onreadystatechange events and sometimes only 'complete' or 'loaded'
+                js.onload = js.onreadystatechange = function () {
+                    if (typeof this.readyState === 'undefined' || this.readyState === 'complete' || this.readyState === 'loaded') {
+                        queue[id] && queue[id]();
+                        delete queue[id];
+                    }
+                };
+                fjs.parentNode.insertBefore(js, fjs);
             };
-            fjs.parentNode.insertBefore(js, fjs);
-        }
+        }())
     };
 
     /**
@@ -591,7 +593,7 @@
             } else {
                 return win.FormData;
             }
-        }());
+        }())
     };
     win.dom = domtools;
 }(window, document));
