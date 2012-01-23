@@ -1,4 +1,5 @@
 /**
+ * @preserve
  * Copyright (c) 2012 Bjoern Brauer
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
@@ -324,7 +325,7 @@
                 // if we are on an IE7 or below return our extended Array ClassList polyfill which needs special initialization
                 return function (el) { var cl = new ClassList(); cl.init(el); return cl; };
             }
-            // if we are in a Browser which doesn't natevily supports el.classList, return our regular ClassList Constructor
+            // if we are in a Browser which doesn't natively supports el.classList, return our regular ClassList Constructor
             return function (el) {return new ClassList(el); };
         } else {
             // we are on a modern Browser which does have the native classList Implementation, so let's return it
