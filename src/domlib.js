@@ -186,44 +186,22 @@
      * @param {Element} el
      */
     domtools.classList = (function () {
-        var classListPolyfill = {},
-            ClassList;
+        var ClassList = {};
         if (!('classList' in doc.createElement('a'))) {
-            /**
-             * Method that returns a Constructor Function for creating a classList Object
-             * @method getConstructor
-             * @return {Function} Returns a Constructor Function which can then extended by adding Methods to its Prototype
-             * @private
-             */
-            classListPolyfill.getConstructor = function () {
-                var Constr,
-                    test;
-                Constr = this.getRegularConstructor();
-                // Create a new ClassList Object, pass a small Object containing a className property and test if the length property of the ClassList Object is correct.
-                // If not, we are on an IE7 or below who can't subclass the Array Object so we need a workaround.
-                test = new Constr({ className: 'foo bar baz' });
-                if (test.length >= 3) {
-                    this.lteie7 = false;
-                    return Constr;
-                } else {
-                    this.lteie7 = true;
-                    return this.getIE7Constructor();
-                }
-            };
             /**
              * Returns a Constructor Function whichs prototype is set to Array.prototype
              * @method getRegularConstructor
              * @return {Function} Returns a Constructor Function which can then extended by adding Methods to its Prototype
              * @private
              */
-            classListPolyfill.getRegularConstructor = function () {
+            ClassList.getRegularConstructor = function () {
                 /**
                  * Constructor Function for the classList Polyfill
-                 * @method ClassList
+                 * @method Constructor
                  * @param {Element} el The Element from which you want to get / set / toggle the classNames
                  * @private
                  */
-                ClassList = function (el) {
+                Constructor = function (el) {
                     /**
                      * Internal Array of Classes from the className property of the Element
                      * @private
@@ -237,8 +215,8 @@
                      */
                     this._updateClassName = function () { el.className = this.toString(); };
                 };
-                ClassList.prototype = Array.prototype;
-                return ClassList;
+                Constructor.prototype = Array.prototype;
+                return Constructor;
             };
             /**
              * Returns a Constructor Function which basically is an Array Object borrowed from an iframe. IE 7 and below can't handle a Constructor Function whichs prototype is set to Array.prototype,
@@ -247,11 +225,12 @@
              * @return {Function} Returns a Constructor Function which can then extended by adding Methods to its Prototype
              * @private
              */
-            classListPolyfill.getIE7Constructor = function () {
+            ClassList.getIE7Constructor = function () {
                 // create an hidden iframe and pass it's Array Object back to our main window to extend it and use it as ClassList Constructor
                 var iframe = doc.createElement('iframe');
                 iframe.style.display = 'none';
                 doc.body.appendChild(iframe);
+                // pass the Array Object to the parent window as LTEie7ClassListPolyFill
                 iframe.contentWindow.document.write("<script>parent.LTEie7ClassListPolyFill = Array;</script>");
                 // Because the iframe doesn't have the Ecmascript5 Polyfills we've included we need to set the prototype manually
                 LTEie7ClassListPolyFill.prototype.indexOf = Array.prototype.indexOf;
@@ -266,7 +245,27 @@
                 };
                 return LTEie7ClassListPolyFill;
             };
-            ClassList = classListPolyfill.getConstructor();
+            /**
+             * Method that returns a Constructor Function for creating a classList Object
+             * @method getConstructor
+             * @return {Function} Returns a Constructor Function which can then extended by adding Methods to its Prototype
+             * @private
+             */
+            ClassList.getConstructor = function () {
+                var Constr,
+                    test;
+                Constr = this.getRegularConstructor();
+                // Create a new ClassList Object, pass a small Object containing a className property and test if the length property of the ClassList Object is correct.
+                // If not, we are on an IE7 or below who can't subclass the Array Object so we need a workaround.
+                test = new Constr({ className: 'foo bar baz' });
+                if (test.length === 3) {
+                } else {
+                    Constr = this.getIE7Constructor();
+                    Constr.lteie7 = true;
+                }
+                return Constr;
+            };
+            ClassList = ClassList.getConstructor();
             /**
              * Adds a class to the className of the Element
              * @method add
@@ -321,7 +320,7 @@
              * @return {String} String of the classes contained in the classList separated by whitespaces
              */
             ClassList.prototype.toString = function () { return this.join(' '); };
-            if (classListPolyfill.lteie7 === true) {
+            if (ClassList.lteie7 === true) {
                 // if we are on an IE7 or below return our extended Array ClassList polyfill which needs special initialization
                 return function (el) { var cl = new ClassList(); cl.init(el); return cl; };
             }
@@ -447,7 +446,16 @@
                 };
                 fjs.parentNode.insertBefore(js, fjs);
             };
-        }())
+        }()),
+        list2Array: function (list) {
+            var arr = [],
+                len = list.length,
+                i;
+            for (i = 0; i < len; i += 1) {
+                arr[i] = list[i];
+            }
+            return arr;
+        }
     };
 
     /**
@@ -537,6 +545,7 @@
             // if data is an instance of this.FormData and data._boundary is defined it's our polyfill and we need to set the required http headers
             if (data instanceof this.FormData && typeof data._boundary !== 'undefined') {
                 headers = [['Content-Type', data._contentType]];
+                data = data.toString();
             }
             return this.request({
                 method: 'POST',
@@ -561,9 +570,9 @@
             if (typeof win.FormData === 'undefined') {
                 _FormData = function (form) {
                     var inputs = [].concat(
-                        Array.prototype.slice.call(domtools.byTagName('input', form)),
-                        Array.prototype.slice.call(domtools.byTagName('select', form)),
-                        Array.prototype.slice.call(domtools.byTagName('textarea', form))
+                        domtools.helper.list2Array(domtools.byTagName('input', form)),
+                        domtools.helper.list2Array(domtools.byTagName('select', form)),
+                        domtools.helper.list2Array(domtools.byTagName('textarea', form))
                     );
                     this._fields = [];
                     this._boundary = '----FormDataBoundary' + Math.random() * 10;
