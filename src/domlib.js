@@ -19,7 +19,7 @@
     var domtools = (function () {
         // noop function which is used as selector engine if your browser doesn't support querySelectorAll and if you didn't set a selectorEngine using dom.setSelectorEngine.
         function selectorEngine() { throw new Error('The CSS Selector Engine isn\'t ready yet!'); }
-        var selectors = {
+        return {
             /**
              * Returns an Element by its ID
              * @method byId
@@ -41,46 +41,39 @@
              * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements
              * @return {[NodeList]} Returns a NodeList of Elements which match the given Tagname
              */
-            byTagName: function (tag, scope) { return typeof scope !== 'undefined' ? scope.getElementsByTagName(tag) : doc.getElementsByTagName(tag); }
+            byTagName: function (tag, scope) { return (scope || doc).getElementsByTagName(tag); },
+            /**
+             * Returns Elements by their className
+             * @method byClass
+             * @param {String} classname The className you want to search for
+             * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements
+             * @return {[NodeList]} Returns a NodeList of Elements which have the given className
+             */
+            byClass: typeof doc.getElementsByClassName === 'undefined' ?
+                    typeof doc.querySelectorAll === 'undefined' ?
+                            function (classname, scope) { return selectorEngine('.' + classname, (scope || doc)); } :
+                            function (classname, scope) { return (scope || doc).querySelectorAll('.' + classname); } :
+                            function (classname, scope) { return (scope || doc).getElementsByClassName(classname); },
+            /**
+             * Returns Elements using a CSS Selector Query
+             * @method query
+             * @param {String} selector Any CSS Selector. For Example: a[href="#"] or p > div > .foo.bar ~ span
+             * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements
+             * @return {[NodeList]} Returns a NodeList of Elements which match the given Selector
+             */
+            query: typeof doc.querySelectorAll === 'undefined' ?
+                    function (selector, scope) { return selectorEngine(selector, (scope || doc)); } :
+                    function (selector, scope) { return (scope || doc).querySelectorAll(selector); },
+            /**
+             * If the Browser doesn't support querySelectorAll add the Method setSelectorEngine to domtools which replaces the noop function selectorEngine with i.e. Sizzle or something else.
+             * This Method will only be avaialable if the Browser doesn't support querySelectorAll, so you have to test if this method exists and if it's true you must call it and pass a CSS Selector Engine.
+             * Otherwise domtools.query and domtools.byClass will throw an Error everytime you call them.
+             * The easiest way: Create an init function for your application and check if domtools.setSelectorEngine is a function, if not you could call your init function, otherwise load Sizzle and call then your init function.
+             * @method setSelectorEngine
+             * @param {Function} engine The Selector Engine you want to use
+             */
+            setSelectorEngine: typeof doc.querySelectorAll === 'undefined' ? function (engine) { selectorEngine = engine; } : null
         };
-        /**
-         * Returns Elements using a CSS Selector Query
-         * @method query
-         * @param {String} selector Any CSS Selector. For Example: a[href="#"] or p > div > .foo.bar ~ span
-         * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements
-         * @return {[NodeList]} Returns a NodeList of Elements which match the given Selector
-         */
-        selectors.query = typeof doc.querySelectorAll === 'undefined' ?
-                function (selector, scope) { return selectorEngine(selector, scope || doc); } :
-                function (selector, scope) { return typeof scope !== 'undefined' ? scope.querySelectorAll(selector) : doc.querySelectorAll(selector); };
-        /**
-         * Returns Elements by their className
-         * @method byClass
-         * @param {String} classname The className you want to search for
-         * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements
-         * @return {[NodeList]} Returns a NodeList of Elements which have the given className
-         */
-        selectors.byClass = typeof doc.getElementsByClassName === 'undefined' ?
-                typeof doc.querySelectorAll === 'undefined' ?
-                        function (classname, scope) { return selectorEngine('.' + classname, scope || doc); } :
-                        function (classname, scope) { return typeof scope !== 'undefined' ? scope.querySelectorAll('.' + classname) : doc.querySelectorAll('.' + classname); } :
-                        function (classname, scope) { return typeof scope !== 'undefined' ? scope.getElementsByClassName(classname) : doc.getElementsByClassName(classname); };
-
-        /**
-         * If the Browser doesn't support querySelectorAll add the Method setSelectorEngine to domtools which replaces the noop function selectorEngine with i.e. Sizzle or something else.
-         * This Method will only be avaialable if the Browser doesn't support querySelectorAll, so you have to test if this method exists and if it's true you must call it and pass a CSS Selector Engine.
-         * Otherwise domtools.query and domtools.byClass will throw an Error everytime you call them.
-         * The easiest way: Create an init function for your application and check if domtools.setSelectorEngine exists, if not you could call your init function, otherwise load Sizzle and call then your init function.
-         * @method setSelectorEngine
-         * @param {Function} engine The Selector Engine you want to use
-         */
-        if (typeof doc.querySelectorAll === 'undefined') {
-            selectors.setSelectorEngine = function (engine) {
-                selectorEngine = engine;
-            };
-        }
-
-        return selectors;
     }());
 
     /**
@@ -136,7 +129,7 @@
                  */
                 function setData(el, key, val) {
                     el.setAttribute('data-' + hyphenate(key), val);
-                    return getData(el, key);
+                    return val;
                 }
                 /**
                  * A Helper Function for setting the Value of an data-* Attribute
@@ -156,7 +149,7 @@
                         var attrs = el.attributes,
                             len = attrs.length,
                             data = {};
-                        while (len--) {
+                        while (len -= 1) {
                             if (attrs[len].name.indexOf('data-') === 0) {
                                 data[camelCase(attrs[len].name.substr(5))] = attrs[len].value;
                             }
@@ -186,8 +179,9 @@
      * @param {Element} el
      */
     domtools.classList = (function () {
-        var ClassList = {};
+        var ClassList;
         if (!('classList' in doc.createElement('a'))) {
+            ClassList = {};
             /**
              * Returns a Constructor Function whichs prototype is set to Array.prototype
              * @method getRegularConstructor
@@ -236,12 +230,26 @@
                 LTEie7ClassListPolyFill.prototype.indexOf = Array.prototype.indexOf;
                 // We only extending the Array Object, so we need to create the own Methods and Properties which regulary sits in the Constructor function as prototypes too.
                 LTEie7ClassListPolyFill.prototype.init = function (el) {
+                    /**
+                     * Internal Array of Classes from the className property of the Element
+                     * @private
+                     * @type property
+                     */
                     var classes = el.className.trim();
-                    this._dom_int_el = el;
+                    /**
+                     * Internal reference to the dom node
+                     * @private
+                     * @type property
+                     */
+                    this.__int_dom_el = el;
                     this.push.apply(this, (classes ? classes.split(/\s+/) : []));
                 };
+                /**
+                 * Method for updating the className Property of the HTML Element
+                 * @protected
+                 */
                 LTEie7ClassListPolyFill.prototype._updateClassName = function () {
-                    this._dom_int_el.className = this.toString();
+                    this.__int_dom_el.className = this.toString();
                 };
                 return LTEie7ClassListPolyFill;
             };
@@ -252,16 +260,12 @@
              * @private
              */
             ClassList.getConstructor = function () {
-                var Constr,
-                    test;
+                var Constr;
                 Constr = this.getRegularConstructor();
                 // Create a new ClassList Object, pass a small Object containing a className property and test if the length property of the ClassList Object is correct.
                 // If not, we are on an IE7 or below who can't subclass the Array Object so we need a workaround.
-                test = new Constr({ className: 'foo bar baz' });
-                if (test.length === 3) {
-                } else {
+                if ((new Constr({ className: 'foo bar baz' })).length !== 3) {
                     Constr = this.getIE7Constructor();
-                    Constr.lteie7 = true;
                 }
                 return Constr;
             };
@@ -296,16 +300,13 @@
              * @return {Boolean} Returns true if the class was added or false when the class was removed
              */
             ClassList.prototype.toggle = function (token) {
-                var ret;
                 if (this.contains(token)) {
                     this.remove(token);
-                    ret = false;
+                    return false;
                 } else {
                     this.add(token);
-                    ret = true;
+                    return true;
                 }
-                this._updateClassName();
-                return ret;
             };
             /**
              * Checks if the given class already exists on the Element
@@ -320,7 +321,7 @@
              * @return {String} String of the classes contained in the classList separated by whitespaces
              */
             ClassList.prototype.toString = function () { return this.join(' '); };
-            if (ClassList.lteie7 === true) {
+            if (!!ClassList.init) {
                 // if we are on an IE7 or below return our extended Array ClassList polyfill which needs special initialization
                 return function (el) { var cl = new ClassList(); cl.init(el); return cl; };
             }
@@ -339,58 +340,55 @@
      * @submodule event
      * @class event
      */
-    domtools.event = (function () {
-        var eventhandler = {
-            /**
-             * Shorthand Function for event.preventDefault and event.stopPropagation.
-             * This Method replaces itself on its first invocation with a Method specialized for the current Browser.
-             * @param {Event} ev The Eventobject
-             * @param {Boolean} stopPropagation Optional: Pass true, if you also want to stop the Event from bubbling up
-             */
-            preventDefault: function (ev, stopPropagation) {
-                var fn;
-                if (typeof ev !== 'undefined' && ev.preventDefault) {
-                    fn = function (e, stopPropagation) {
-                        e.preventDefault();
-                        stopPropagation && e.stopPropagation();
-                    };
-                } else if (typeof win.event !== 'undefined') {
-                    fn = function (e, stopPropagation) {
-                        win.event.returnValue = false;
-                        stopPropagation && (win.event.cancelBubble = true);
-                    };
-                }
-                this.preventDefault = fn;
-                return fn(ev || win.event, stopPropagation);
+    domtools.event = {
+        /**
+         * Shorthand Function for event.preventDefault and event.stopPropagation.
+         * This Method replaces itself on its first invocation with a Method specialized for the current Browser.
+         * @param {Event} ev The Eventobject
+         * @param {Boolean} stopPropagation Optional: Pass true, if you also want to stop the Event from bubbling up
+         */
+        preventDefault: function (ev, stopPropagation) {
+            var fn;
+            if (typeof ev !== 'undefined' && ev.preventDefault) {
+                fn = function (e, stopPropagation) {
+                    e.preventDefault();
+                    stopPropagation && e.stopPropagation();
+                };
+            } else if (typeof win.event !== 'undefined') {
+                fn = function (e, stopPropagation) {
+                    win.event.returnValue = false;
+                    stopPropagation && (win.event.cancelBubble = true);
+                };
             }
-        };
-        if (win.addEventListener) {
-            // Standard conform Browsers
-            /**
-             * Method for registering Callback Functions to Dom Events
-             * @param {Element} el The Element on which the listener should be bound
-             * @param {String} event The Eventtype you want listen for
-             * @param {Function} listener The Listener Callback which will be exected when the Event occurs
-             */
-            eventhandler.connect = function (el, event, listener) { el && el.addEventListener(event, listener, false); };
-            /**
-             * Method for deregistering Callback Functions to Dom Events
-             * @param {Element} el The Element on which the listener is currently bound
-             * @param {String} event The Eventtype the listener is registered for
-             * @param {Function} listener The Listener Callback which was registred for this event
-             */
-            eventhandler.disconnect = function (el, event, listener) { el && el.removeEventListener(event, listener, false); };
-        } else if (win.attachEvent) {
-            // old IE Browsers
-            eventhandler.connect = function (el, event, listener) { el && el.attachEvent('on' + event, listener); };
-            eventhandler.disconnect = function (el, event, listener) { el && el.detachEvent('on' + event, listener); };
-        } else {
-            // even older Browsers (not sure if it's still needed, since we won't support dinosaur Browsers)
-            eventhandler.connect = function (el, event, listener) { el['on' + event] = listener; };
-            eventhandler.disconnect = function (el, event, listener) { delete el['on' + event]; };
+            this.preventDefault = fn;
+            return fn(ev || win.event, stopPropagation);
         }
-        return eventhandler;
-    }());
+    };
+    if (typeof win.addEventListener === 'function') {
+        // Standard conform Browsers
+        /**
+         * Method for registering Callback Functions to Dom Events
+         * @param {Element} el The Element on which the listener should be bound
+         * @param {String} event The Eventtype you want listen for
+         * @param {Function} listener The Listener Callback which will be exected when the Event occurs
+         */
+        domtools.event.connect = function (el, event, listener) { el && el.addEventListener(event, listener, false); };
+        /**
+         * Method for deregistering Callback Functions to Dom Events
+         * @param {Element} el The Element on which the listener is currently bound
+         * @param {String} event The Eventtype the listener is registered for
+         * @param {Function} listener The Listener Callback which was registred for this event
+         */
+        domtools.event.disconnect = function (el, event, listener) { el && el.removeEventListener(event, listener, false); };
+    } else if (typeof doc.attachEvent !== 'undefined') {
+        // old IE Browsers
+        domtools.event.connect = function (el, event, listener) { el && el.attachEvent('on' + event, listener); };
+        domtools.event.disconnect = function (el, event, listener) { el && el.detachEvent('on' + event, listener); };
+    } else {
+        // even older Browsers (not sure if it's still needed, since we won't support dinosaur Browsers)
+        domtools.event.connect = function (el, event, listener) { el['on' + event] = listener; };
+        domtools.event.disconnect = function (el, event, listener) { delete el['on' + event]; };
+    }
 
     /**
      * Submodule for some helper functions
@@ -414,6 +412,21 @@
             };
         },
         /**
+         * Method that takes a DOM NodeList and returns an array
+         * @method list2Array
+         * @param {NodeList} list the DOM NodeList
+         * @return {Array} Returns the DOM NodeList converted to an array
+         */
+        list2Array: function (list) {
+            var arr = [],
+                len = list.length,
+                i;
+            for (i = 0; i < len; i += 1) {
+                arr[i] = list[i];
+            }
+            return arr;
+        },
+        /**
          * Method for loading Javascript Files asynchronously
          * @method loadScript
          * @param {String} url the Url of the Script that should be loaded
@@ -423,39 +436,31 @@
          */
         loadScript: (function () {
             var queue = {},
-                fjs = doc.getElementsByTagName('script')[0];
+                fjs = doc.getElementsByTagName('script')[0],
+                scriptLoaded = function (id) {
+                    // standard conform browsers fire onload event. IE fires onreadystatechange events and sometimes only 'complete' or 'loaded'
+                    if (typeof this.readyState === 'undefined' || this.readyState === 'complete' || this.readyState === 'loaded') {
+                        queue[id] && queue[id]();
+                        delete queue[id];
+                    }
+                };
             return function (url, id, callback) {
                 if (typeof url === 'undefined' || typeof id === 'undefined') {
                     throw new Error('You must provide an unique id and an url from where the script should be loaded!');
                 }
                 if (typeof queue[id] === 'undefined') {
                     queue[id] = this.once(callback);
-                }  else {
+                } else {
                     return;
                 }
                 var js = doc.createElement('script');
                 js.id = id;
                 js.src = url;
                 js.async = true;
-                // standard conform browsers fire onload event. IE fires onreadystatechange events and sometimes only 'complete' or 'loaded'
-                js.onload = js.onreadystatechange = function () {
-                    if (typeof this.readyState === 'undefined' || this.readyState === 'complete' || this.readyState === 'loaded') {
-                        queue[id] && queue[id]();
-                        delete queue[id];
-                    }
-                };
+                js.onload = js.onreadystatechange = scriptLoaded.bind(js, id);
                 fjs.parentNode.insertBefore(js, fjs);
             };
-        }()),
-        list2Array: function (list) {
-            var arr = [],
-                len = list.length,
-                i;
-            for (i = 0; i < len; i += 1) {
-                arr[i] = list[i];
-            }
-            return arr;
-        }
+        }())
     };
 
     /**
