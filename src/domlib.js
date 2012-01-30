@@ -504,11 +504,13 @@
                 xhr.setRequestHeader(header[0], header[1]);
             });
             xhr.onreadystatechange = function () {
-                var responseText;
+                var responseText,
+                    contentType;
                 if (this.readyState === 4) {
                     if (this.status === 200) {
                         responseText = this.responseText;
-                        if (this.getResponseHeader('Content-Type').split(';')[0] === 'application/json') {
+                        contentType = this.getResponseHeader('Content-Type');
+                        if ((contentType || ';').split(';')[0] === 'application/json') {
                             // if response Content-Type is json, parse it and return the Javascript Object
                             try {
                                 responseText = JSON.parse(responseText);
