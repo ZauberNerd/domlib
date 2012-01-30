@@ -1,4 +1,5 @@
 <div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * @preserve</span>
 <span class="cm"> * Copyright (c) 2012 Bjoern Brauer</span>
 <span class="cm"> * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</span>
 <span class="cm"> * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</span>
@@ -18,7 +19,7 @@
     <span class="kd">var</span> <span class="nx">domtools</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
         <span class="c1">// noop function which is used as selector engine if your browser doesn&#39;t support querySelectorAll and if you didn&#39;t set a selectorEngine using dom.setSelectorEngine.</span>
         <span class="kd">function</span> <span class="nx">selectorEngine</span><span class="p">()</span> <span class="p">{</span> <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;The CSS Selector Engine isn\&#39;t ready yet!&#39;</span><span class="p">);</span> <span class="p">}</span>
-        <span class="kd">var</span> <span class="nx">selectors</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span>
             <span class="cm">/**</span>
 <span class="cm">             * Returns an Element by its ID</span>
 <span class="cm">             * @method byId</span>
@@ -40,46 +41,39 @@
 <span class="cm">             * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements</span>
 <span class="cm">             * @return {[NodeList]} Returns a NodeList of Elements which match the given Tagname</span>
 <span class="cm">             */</span>
-            <span class="nx">byTagName</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">tag</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="k">typeof</span> <span class="nx">scope</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">tag</span><span class="p">)</span> <span class="o">:</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">tag</span><span class="p">);</span> <span class="p">}</span>
+            <span class="nx">byTagName</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">tag</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">(</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">doc</span><span class="p">).</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="nx">tag</span><span class="p">);</span> <span class="p">},</span>
+            <span class="cm">/**</span>
+<span class="cm">             * Returns Elements by their className</span>
+<span class="cm">             * @method byClass</span>
+<span class="cm">             * @param {String} classname The className you want to search for</span>
+<span class="cm">             * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements</span>
+<span class="cm">             * @return {[NodeList]} Returns a NodeList of Elements which have the given className</span>
+<span class="cm">             */</span>
+            <span class="nx">byClass</span><span class="o">:</span> <span class="k">typeof</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">getElementsByClassName</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span>
+                    <span class="k">typeof</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">querySelectorAll</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span>
+                            <span class="kd">function</span> <span class="p">(</span><span class="nx">classname</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">selectorEngine</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">classname</span><span class="p">,</span> <span class="p">(</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">doc</span><span class="p">));</span> <span class="p">}</span> <span class="o">:</span>
+                            <span class="kd">function</span> <span class="p">(</span><span class="nx">classname</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">(</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">doc</span><span class="p">).</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">classname</span><span class="p">);</span> <span class="p">}</span> <span class="o">:</span>
+                            <span class="kd">function</span> <span class="p">(</span><span class="nx">classname</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">(</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">doc</span><span class="p">).</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="nx">classname</span><span class="p">);</span> <span class="p">},</span>
+            <span class="cm">/**</span>
+<span class="cm">             * Returns Elements using a CSS Selector Query</span>
+<span class="cm">             * @method query</span>
+<span class="cm">             * @param {String} selector Any CSS Selector. For Example: a[href=&quot;#&quot;] or p &gt; div &gt; .foo.bar ~ span</span>
+<span class="cm">             * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements</span>
+<span class="cm">             * @return {[NodeList]} Returns a NodeList of Elements which match the given Selector</span>
+<span class="cm">             */</span>
+            <span class="nx">query</span><span class="o">:</span> <span class="k">typeof</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">querySelectorAll</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span>
+                    <span class="kd">function</span> <span class="p">(</span><span class="nx">selector</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">selectorEngine</span><span class="p">(</span><span class="nx">selector</span><span class="p">,</span> <span class="p">(</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">doc</span><span class="p">));</span> <span class="p">}</span> <span class="o">:</span>
+                    <span class="kd">function</span> <span class="p">(</span><span class="nx">selector</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="p">(</span><span class="nx">scope</span> <span class="o">||</span> <span class="nx">doc</span><span class="p">).</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="nx">selector</span><span class="p">);</span> <span class="p">},</span>
+            <span class="cm">/**</span>
+<span class="cm">             * If the Browser doesn&#39;t support querySelectorAll add the Method setSelectorEngine to domtools which replaces the noop function selectorEngine with i.e. Sizzle or something else.</span>
+<span class="cm">             * This Method will only be avaialable if the Browser doesn&#39;t support querySelectorAll, so you have to test if this method exists and if it&#39;s true you must call it and pass a CSS Selector Engine.</span>
+<span class="cm">             * Otherwise domtools.query and domtools.byClass will throw an Error everytime you call them.</span>
+<span class="cm">             * The easiest way: Create an init function for your application and check if domtools.setSelectorEngine is a function, if not you could call your init function, otherwise load Sizzle and call then your init function.</span>
+<span class="cm">             * @method setSelectorEngine</span>
+<span class="cm">             * @param {Function} engine The Selector Engine you want to use</span>
+<span class="cm">             */</span>
+            <span class="nx">setSelectorEngine</span><span class="o">:</span> <span class="k">typeof</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">querySelectorAll</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">engine</span><span class="p">)</span> <span class="p">{</span> <span class="nx">selectorEngine</span> <span class="o">=</span> <span class="nx">engine</span><span class="p">;</span> <span class="p">}</span> <span class="o">:</span> <span class="kc">null</span>
         <span class="p">};</span>
-        <span class="cm">/**</span>
-<span class="cm">         * Returns Elements using a CSS Selector Query</span>
-<span class="cm">         * @method query</span>
-<span class="cm">         * @param {String} selector Any CSS Selector. For Example: a[href=&quot;#&quot;] or p &gt; div &gt; .foo.bar ~ span</span>
-<span class="cm">         * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements</span>
-<span class="cm">         * @return {[NodeList]} Returns a NodeList of Elements which match the given Selector</span>
-<span class="cm">         */</span>
-        <span class="nx">selectors</span><span class="p">.</span><span class="nx">query</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">querySelectorAll</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span>
-                <span class="kd">function</span> <span class="p">(</span><span class="nx">selector</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">selectorEngine</span><span class="p">(</span><span class="nx">selector</span><span class="p">,</span> <span class="nx">scope</span> <span class="o">||</span> <span class="nx">doc</span><span class="p">);</span> <span class="p">}</span> <span class="o">:</span>
-                <span class="kd">function</span> <span class="p">(</span><span class="nx">selector</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="k">typeof</span> <span class="nx">scope</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="nx">selector</span><span class="p">)</span> <span class="o">:</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="nx">selector</span><span class="p">);</span> <span class="p">};</span>
-        <span class="cm">/**</span>
-<span class="cm">         * Returns Elements by their className</span>
-<span class="cm">         * @method byClass</span>
-<span class="cm">         * @param {String} classname The className you want to search for</span>
-<span class="cm">         * @param {Element} scope Optional: You could provide a Scope of an Element to search only inside that Scope for Elements</span>
-<span class="cm">         * @return {[NodeList]} Returns a NodeList of Elements which have the given className</span>
-<span class="cm">         */</span>
-        <span class="nx">selectors</span><span class="p">.</span><span class="nx">byClass</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">getElementsByClassName</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span>
-                <span class="k">typeof</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">querySelectorAll</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span>
-                        <span class="kd">function</span> <span class="p">(</span><span class="nx">classname</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">selectorEngine</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">classname</span><span class="p">,</span> <span class="nx">scope</span> <span class="o">||</span> <span class="nx">doc</span><span class="p">);</span> <span class="p">}</span> <span class="o">:</span>
-                        <span class="kd">function</span> <span class="p">(</span><span class="nx">classname</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="k">typeof</span> <span class="nx">scope</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">classname</span><span class="p">)</span> <span class="o">:</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">classname</span><span class="p">);</span> <span class="p">}</span> <span class="o">:</span>
-                        <span class="kd">function</span> <span class="p">(</span><span class="nx">classname</span><span class="p">,</span> <span class="nx">scope</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="k">typeof</span> <span class="nx">scope</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span> <span class="nx">scope</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="nx">classname</span><span class="p">)</span> <span class="o">:</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="nx">classname</span><span class="p">);</span> <span class="p">};</span>
-
-        <span class="cm">/**</span>
-<span class="cm">         * If the Browser doesn&#39;t support querySelectorAll add the Method setSelectorEngine to domtools which replaces the noop function selectorEngine with i.e. Sizzle or something else.</span>
-<span class="cm">         * This Method will only be avaialable if the Browser doesn&#39;t support querySelectorAll, so you have to test if this method exists and if it&#39;s true you must call it and pass a CSS Selector Engine.</span>
-<span class="cm">         * Otherwise domtools.query and domtools.byClass will throw an Error everytime you call them.</span>
-<span class="cm">         * The easiest way: Create an init function for your application and check if domtools.setSelectorEngine exists, if not you could call your init function, otherwise load Sizzle and call then your init function.</span>
-<span class="cm">         * @method setSelectorEngine</span>
-<span class="cm">         * @param {Function} engine The Selector Engine you want to use</span>
-<span class="cm">         */</span>
-        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">querySelectorAll</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">selectors</span><span class="p">.</span><span class="nx">setSelectorEngine</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">engine</span><span class="p">)</span> <span class="p">{</span>
-                <span class="nx">selectorEngine</span> <span class="o">=</span> <span class="nx">engine</span><span class="p">;</span>
-            <span class="p">};</span>
-        <span class="p">}</span>
-
-        <span class="k">return</span> <span class="nx">selectors</span><span class="p">;</span>
     <span class="p">}());</span>
 
     <span class="cm">/**</span>
@@ -135,7 +129,7 @@
 <span class="cm">                 */</span>
                 <span class="kd">function</span> <span class="nx">setData</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
                     <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-&#39;</span> <span class="o">+</span> <span class="nx">hyphenate</span><span class="p">(</span><span class="nx">key</span><span class="p">),</span> <span class="nx">val</span><span class="p">);</span>
-                    <span class="k">return</span> <span class="nx">getData</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">key</span><span class="p">);</span>
+                    <span class="k">return</span> <span class="nx">val</span><span class="p">;</span>
                 <span class="p">}</span>
                 <span class="cm">/**</span>
 <span class="cm">                 * A Helper Function for setting the Value of an data-* Attribute</span>
@@ -148,12 +142,14 @@
 <span class="cm">                 */</span>
                 <span class="kd">function</span> <span class="nx">getSetData</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">optVal</span><span class="p">)</span> <span class="p">{</span>
                     <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">key</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="c1">// if optVal is undefined, return the data-[key], otherwise set data[key] to optVal</span>
                         <span class="k">return</span> <span class="k">typeof</span> <span class="nx">optVal</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span> <span class="nx">getData</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="o">:</span> <span class="nx">setData</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">optVal</span><span class="p">);</span>
                     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="c1">// if optVal and key is undefined iterate over all attributes and return all attribute values which starts with data-</span>
                         <span class="kd">var</span> <span class="nx">attrs</span> <span class="o">=</span> <span class="nx">el</span><span class="p">.</span><span class="nx">attributes</span><span class="p">,</span>
                             <span class="nx">len</span> <span class="o">=</span> <span class="nx">attrs</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
                             <span class="nx">data</span> <span class="o">=</span> <span class="p">{};</span>
-                        <span class="k">while</span> <span class="p">(</span><span class="nx">len</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="k">while</span> <span class="p">(</span><span class="nx">len</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
                             <span class="k">if</span> <span class="p">(</span><span class="nx">attrs</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">name</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;data-&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
                                 <span class="nx">data</span><span class="p">[</span><span class="nx">camelCase</span><span class="p">(</span><span class="nx">attrs</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">name</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">5</span><span class="p">))]</span> <span class="o">=</span> <span class="nx">attrs</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">value</span><span class="p">;</span>
                             <span class="p">}</span>
@@ -183,44 +179,23 @@
 <span class="cm">     * @param {Element} el</span>
 <span class="cm">     */</span>
     <span class="nx">domtools</span><span class="p">.</span><span class="nx">classList</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">classListPolyfill</span> <span class="o">=</span> <span class="p">{},</span>
-            <span class="nx">ClassList</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">ClassList</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="s1">&#39;classList&#39;</span> <span class="k">in</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)))</span> <span class="p">{</span>
-            <span class="cm">/**</span>
-<span class="cm">             * Method that returns a Constructor Function for creating a classList Object</span>
-<span class="cm">             * @method getConstructor</span>
-<span class="cm">             * @return {Function} Returns a Constructor Function which can then extended by adding Methods to its Prototype</span>
-<span class="cm">             * @private</span>
-<span class="cm">             */</span>
-            <span class="nx">classListPolyfill</span><span class="p">.</span><span class="nx">getConstructor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">Constr</span><span class="p">,</span>
-                    <span class="nx">test</span><span class="p">;</span>
-                <span class="nx">Constr</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getRegularConstructor</span><span class="p">();</span>
-                <span class="c1">// Create a new ClassList Object, pass a small Object containing a className property and test if the length property of the ClassList Object is correct.</span>
-                <span class="c1">// If not, we are on an IE7 or below who can&#39;t subclass the Array Object so we need a workaround.</span>
-                <span class="nx">test</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Constr</span><span class="p">({</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;foo bar baz&#39;</span> <span class="p">});</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nx">test</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">lteie7</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-                    <span class="k">return</span> <span class="nx">Constr</span><span class="p">;</span>
-                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">lteie7</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-                    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">getIE7Constructor</span><span class="p">();</span>
-                <span class="p">}</span>
-            <span class="p">};</span>
+            <span class="nx">ClassList</span> <span class="o">=</span> <span class="p">{};</span>
             <span class="cm">/**</span>
 <span class="cm">             * Returns a Constructor Function whichs prototype is set to Array.prototype</span>
 <span class="cm">             * @method getRegularConstructor</span>
 <span class="cm">             * @return {Function} Returns a Constructor Function which can then extended by adding Methods to its Prototype</span>
 <span class="cm">             * @private</span>
 <span class="cm">             */</span>
-            <span class="nx">classListPolyfill</span><span class="p">.</span><span class="nx">getRegularConstructor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="nx">ClassList</span><span class="p">.</span><span class="nx">getRegularConstructor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
                 <span class="cm">/**</span>
 <span class="cm">                 * Constructor Function for the classList Polyfill</span>
-<span class="cm">                 * @method ClassList</span>
+<span class="cm">                 * @method Constructor</span>
 <span class="cm">                 * @param {Element} el The Element from which you want to get / set / toggle the classNames</span>
 <span class="cm">                 * @private</span>
 <span class="cm">                 */</span>
-                <span class="nx">ClassList</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">Constructor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
                     <span class="cm">/**</span>
 <span class="cm">                     * Internal Array of Classes from the className property of the Element</span>
 <span class="cm">                     * @private</span>
@@ -234,8 +209,8 @@
 <span class="cm">                     */</span>
                     <span class="k">this</span><span class="p">.</span><span class="nx">_updateClassName</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="nx">el</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span> <span class="p">};</span>
                 <span class="p">};</span>
-                <span class="nx">ClassList</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
-                <span class="k">return</span> <span class="nx">ClassList</span><span class="p">;</span>
+                <span class="nx">Constructor</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+                <span class="k">return</span> <span class="nx">Constructor</span><span class="p">;</span>
             <span class="p">};</span>
             <span class="cm">/**</span>
 <span class="cm">             * Returns a Constructor Function which basically is an Array Object borrowed from an iframe. IE 7 and below can&#39;t handle a Constructor Function whichs prototype is set to Array.prototype,</span>
@@ -244,24 +219,57 @@
 <span class="cm">             * @return {Function} Returns a Constructor Function which can then extended by adding Methods to its Prototype</span>
 <span class="cm">             * @private</span>
 <span class="cm">             */</span>
-            <span class="nx">classListPolyfill</span><span class="p">.</span><span class="nx">getIE7Constructor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="nx">ClassList</span><span class="p">.</span><span class="nx">getIE7Constructor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+                <span class="c1">// create an hidden iframe and pass it&#39;s Array Object back to our main window to extend it and use it as ClassList Constructor</span>
                 <span class="kd">var</span> <span class="nx">iframe</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;iframe&#39;</span><span class="p">);</span>
                 <span class="nx">iframe</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">;</span>
                 <span class="nx">doc</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">iframe</span><span class="p">);</span>
+                <span class="c1">// pass the Array Object to the parent window as LTEie7ClassListPolyFill</span>
                 <span class="nx">iframe</span><span class="p">.</span><span class="nx">contentWindow</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">&quot;&lt;script&gt;parent.LTEie7ClassListPolyFill = Array;&lt;/script&gt;&quot;</span><span class="p">);</span>
                 <span class="c1">// Because the iframe doesn&#39;t have the Ecmascript5 Polyfills we&#39;ve included we need to set the prototype manually</span>
                 <span class="nx">LTEie7ClassListPolyFill</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">indexOf</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">;</span>
                 <span class="c1">// We only extending the Array Object, so we need to create the own Methods and Properties which regulary sits in the Constructor function as prototypes too.</span>
                 <span class="nx">LTEie7ClassListPolyFill</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">init</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">_dom_int_classes</span> <span class="o">=</span> <span class="nx">el</span><span class="p">.</span><span class="nx">className</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">push</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_dom_int_classes</span> <span class="o">?</span> <span class="k">this</span><span class="p">.</span><span class="nx">_dom_int_classes</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/\s+/</span><span class="p">)</span> <span class="o">:</span> <span class="p">[]));</span>
+                    <span class="cm">/**</span>
+<span class="cm">                     * Internal Array of Classes from the className property of the Element</span>
+<span class="cm">                     * @private</span>
+<span class="cm">                     * @type property</span>
+<span class="cm">                     */</span>
+                    <span class="kd">var</span> <span class="nx">classes</span> <span class="o">=</span> <span class="nx">el</span><span class="p">.</span><span class="nx">className</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+                    <span class="cm">/**</span>
+<span class="cm">                     * Internal reference to the dom node</span>
+<span class="cm">                     * @private</span>
+<span class="cm">                     * @type property</span>
+<span class="cm">                     */</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">__int_dom_el</span> <span class="o">=</span> <span class="nx">el</span><span class="p">;</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">push</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">(</span><span class="nx">classes</span> <span class="o">?</span> <span class="nx">classes</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/\s+/</span><span class="p">)</span> <span class="o">:</span> <span class="p">[]));</span>
                 <span class="p">};</span>
+                <span class="cm">/**</span>
+<span class="cm">                 * Method for updating the className Property of the HTML Element</span>
+<span class="cm">                 * @protected</span>
+<span class="cm">                 */</span>
                 <span class="nx">LTEie7ClassListPolyFill</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_updateClassName</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-                    <span class="k">this</span><span class="p">.</span><span class="nx">_dom_int_classes</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+                    <span class="k">this</span><span class="p">.</span><span class="nx">__int_dom_el</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
                 <span class="p">};</span>
                 <span class="k">return</span> <span class="nx">LTEie7ClassListPolyFill</span><span class="p">;</span>
             <span class="p">};</span>
-            <span class="nx">ClassList</span> <span class="o">=</span> <span class="nx">classListPolyfill</span><span class="p">.</span><span class="nx">getConstructor</span><span class="p">();</span>
+            <span class="cm">/**</span>
+<span class="cm">             * Method that returns a Constructor Function for creating a classList Object</span>
+<span class="cm">             * @method getConstructor</span>
+<span class="cm">             * @return {Function} Returns a Constructor Function which can then extended by adding Methods to its Prototype</span>
+<span class="cm">             * @private</span>
+<span class="cm">             */</span>
+            <span class="nx">ClassList</span><span class="p">.</span><span class="nx">getConstructor</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">Constr</span><span class="p">;</span>
+                <span class="nx">Constr</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getRegularConstructor</span><span class="p">();</span>
+                <span class="c1">// Create a new ClassList Object, pass a small Object containing a className property and test if the length property of the ClassList Object is correct.</span>
+                <span class="c1">// If not, we are on an IE7 or below who can&#39;t subclass the Array Object so we need a workaround.</span>
+                <span class="k">if</span> <span class="p">((</span><span class="k">new</span> <span class="nx">Constr</span><span class="p">({</span> <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;foo bar baz&#39;</span> <span class="p">})).</span><span class="nx">length</span> <span class="o">!==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">Constr</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getIE7Constructor</span><span class="p">();</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="nx">Constr</span><span class="p">;</span>
+            <span class="p">};</span>
+            <span class="nx">ClassList</span> <span class="o">=</span> <span class="nx">ClassList</span><span class="p">.</span><span class="nx">getConstructor</span><span class="p">();</span>
             <span class="cm">/**</span>
 <span class="cm">             * Adds a class to the className of the Element</span>
 <span class="cm">             * @method add</span>
@@ -292,16 +300,13 @@
 <span class="cm">             * @return {Boolean} Returns true if the class was added or false when the class was removed</span>
 <span class="cm">             */</span>
             <span class="nx">ClassList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toggle</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">ret</span><span class="p">;</span>
                 <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">token</span><span class="p">))</span> <span class="p">{</span>
                     <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">token</span><span class="p">);</span>
-                    <span class="nx">ret</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+                    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
                 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                     <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">token</span><span class="p">);</span>
-                    <span class="nx">ret</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+                    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
                 <span class="p">}</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">_updateClassName</span><span class="p">();</span>
-                <span class="k">return</span> <span class="nx">ret</span><span class="p">;</span>
             <span class="p">};</span>
             <span class="cm">/**</span>
 <span class="cm">             * Checks if the given class already exists on the Element</span>
@@ -316,11 +321,14 @@
 <span class="cm">             * @return {String} String of the classes contained in the classList separated by whitespaces</span>
 <span class="cm">             */</span>
             <span class="nx">ClassList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span> <span class="p">};</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">classListPolyfill</span><span class="p">.</span><span class="nx">lteie7</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!!</span><span class="nx">ClassList</span><span class="p">.</span><span class="nx">init</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// if we are on an IE7 or below return our extended Array ClassList polyfill which needs special initialization</span>
                 <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span> <span class="kd">var</span> <span class="nx">cl</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ClassList</span><span class="p">();</span> <span class="nx">cl</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span> <span class="k">return</span> <span class="nx">cl</span><span class="p">;</span> <span class="p">};</span>
             <span class="p">}</span>
+            <span class="c1">// if we are in a Browser which doesn&#39;t natively supports el.classList, return our regular ClassList Constructor</span>
             <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span><span class="k">return</span> <span class="k">new</span> <span class="nx">ClassList</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span> <span class="p">};</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// we are on a modern Browser which does have the native classList Implementation, so let&#39;s return it</span>
             <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">el</span><span class="p">.</span><span class="nx">classList</span><span class="p">;</span> <span class="p">};</span>
         <span class="p">}</span>
     <span class="p">}());</span>
@@ -332,55 +340,55 @@
 <span class="cm">     * @submodule event</span>
 <span class="cm">     * @class event</span>
 <span class="cm">     */</span>
-    <span class="nx">domtools</span><span class="p">.</span><span class="nx">event</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">eventhandler</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="cm">/**</span>
-<span class="cm">             * Shorthand Function for event.preventDefault and event.stopPropagation.</span>
-<span class="cm">             * This Method replaces itself on its first invocation with a Method specialized for the current Browser.</span>
-<span class="cm">             * @param {Event} ev The Eventobject</span>
-<span class="cm">             * @param {Boolean} stopPropagation Optional: Pass true, if you also want to stop the Event from bubbling up</span>
-<span class="cm">             */</span>
-            <span class="nx">preventDefault</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">ev</span><span class="p">,</span> <span class="nx">stopPropagation</span><span class="p">)</span> <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">fn</span><span class="p">;</span>
-                <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">ev</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">stopPropagation</span><span class="p">)</span> <span class="p">{</span>
-                        <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-                        <span class="nx">stopPropagation</span> <span class="o">&amp;&amp;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
-                    <span class="p">};</span>
-                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">win</span><span class="p">.</span><span class="nx">event</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">stopPropagation</span><span class="p">)</span> <span class="p">{</span>
-                        <span class="nx">win</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">returnValue</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-                        <span class="nx">stopPropagation</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">win</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">cancelBubble</span> <span class="o">=</span> <span class="kc">true</span><span class="p">);</span>
-                    <span class="p">};</span>
-                <span class="p">}</span>
-                <span class="k">this</span><span class="p">.</span><span class="nx">preventDefault</span> <span class="o">=</span> <span class="nx">fn</span><span class="p">;</span>
-                <span class="k">return</span> <span class="nx">fn</span><span class="p">(</span><span class="nx">ev</span> <span class="o">||</span> <span class="nx">win</span><span class="p">.</span><span class="nx">event</span><span class="p">,</span> <span class="nx">stopPropagation</span><span class="p">);</span>
+    <span class="nx">domtools</span><span class="p">.</span><span class="nx">event</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="cm">/**</span>
+<span class="cm">         * Shorthand Function for event.preventDefault and event.stopPropagation.</span>
+<span class="cm">         * This Method replaces itself on its first invocation with a Method specialized for the current Browser.</span>
+<span class="cm">         * @param {Event} ev The Eventobject</span>
+<span class="cm">         * @param {Boolean} stopPropagation Optional: Pass true, if you also want to stop the Event from bubbling up</span>
+<span class="cm">         */</span>
+        <span class="nx">preventDefault</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">ev</span><span class="p">,</span> <span class="nx">stopPropagation</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">fn</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">ev</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">stopPropagation</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+                    <span class="nx">stopPropagation</span> <span class="o">&amp;&amp;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+                <span class="p">};</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">win</span><span class="p">.</span><span class="nx">event</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">fn</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">,</span> <span class="nx">stopPropagation</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">win</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">returnValue</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+                    <span class="nx">stopPropagation</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">win</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">cancelBubble</span> <span class="o">=</span> <span class="kc">true</span><span class="p">);</span>
+                <span class="p">};</span>
             <span class="p">}</span>
-        <span class="p">};</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">win</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">)</span> <span class="p">{</span>
-            <span class="cm">/**</span>
-<span class="cm">             * Method for registering Callback Functions to Dom Events</span>
-<span class="cm">             * @param {Element} el The Element on which the listener should be bound</span>
-<span class="cm">             * @param {String} event The Eventtype you want listen for</span>
-<span class="cm">             * @param {Function} listener The Listener Callback which will be exected when the Event occurs</span>
-<span class="cm">             */</span>
-            <span class="nx">eventhandler</span><span class="p">.</span><span class="nx">connect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> <span class="p">};</span>
-            <span class="cm">/**</span>
-<span class="cm">             * Method for deregistering Callback Functions to Dom Events</span>
-<span class="cm">             * @param {Element} el The Element on which the listener is currently bound</span>
-<span class="cm">             * @param {String} event The Eventtype the listener is registered for</span>
-<span class="cm">             * @param {Function} listener The Listener Callback which was registred for this event</span>
-<span class="cm">             */</span>
-            <span class="nx">eventhandler</span><span class="p">.</span><span class="nx">disconnect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> <span class="p">};</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">win</span><span class="p">.</span><span class="nx">attachEvent</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">eventhandler</span><span class="p">.</span><span class="nx">connect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="p">.</span><span class="nx">attachEvent</span><span class="p">(</span><span class="s1">&#39;on&#39;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">);</span> <span class="p">};</span>
-            <span class="nx">eventhandler</span><span class="p">.</span><span class="nx">disconnect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="p">.</span><span class="nx">detachEvent</span><span class="p">(</span><span class="s1">&#39;on&#39;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">);</span> <span class="p">};</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nx">eventhandler</span><span class="p">.</span><span class="nx">connect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span><span class="p">[</span><span class="s1">&#39;on&#39;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">]</span> <span class="o">=</span> <span class="nx">listener</span><span class="p">;</span> <span class="p">};</span>
-            <span class="nx">eventhandler</span><span class="p">.</span><span class="nx">disconnect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="k">delete</span> <span class="nx">el</span><span class="p">[</span><span class="s1">&#39;on&#39;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">];</span> <span class="p">};</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">preventDefault</span> <span class="o">=</span> <span class="nx">fn</span><span class="p">;</span>
+            <span class="k">return</span> <span class="nx">fn</span><span class="p">(</span><span class="nx">ev</span> <span class="o">||</span> <span class="nx">win</span><span class="p">.</span><span class="nx">event</span><span class="p">,</span> <span class="nx">stopPropagation</span><span class="p">);</span>
         <span class="p">}</span>
-        <span class="k">return</span> <span class="nx">eventhandler</span><span class="p">;</span>
-    <span class="p">}());</span>
+    <span class="p">};</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">win</span><span class="p">.</span><span class="nx">addEventListener</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Standard conform Browsers</span>
+        <span class="cm">/**</span>
+<span class="cm">         * Method for registering Callback Functions to Dom Events</span>
+<span class="cm">         * @param {Element} el The Element on which the listener should be bound</span>
+<span class="cm">         * @param {String} event The Eventtype you want listen for</span>
+<span class="cm">         * @param {Function} listener The Listener Callback which will be exected when the Event occurs</span>
+<span class="cm">         */</span>
+        <span class="nx">domtools</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">connect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> <span class="p">};</span>
+        <span class="cm">/**</span>
+<span class="cm">         * Method for deregistering Callback Functions to Dom Events</span>
+<span class="cm">         * @param {Element} el The Element on which the listener is currently bound</span>
+<span class="cm">         * @param {String} event The Eventtype the listener is registered for</span>
+<span class="cm">         * @param {Function} listener The Listener Callback which was registred for this event</span>
+<span class="cm">         */</span>
+        <span class="nx">domtools</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">disconnect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span> <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">attachEvent</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// old IE Browsers</span>
+        <span class="nx">domtools</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">connect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="p">.</span><span class="nx">attachEvent</span><span class="p">(</span><span class="s1">&#39;on&#39;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">);</span> <span class="p">};</span>
+        <span class="nx">domtools</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">disconnect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span> <span class="o">&amp;&amp;</span> <span class="nx">el</span><span class="p">.</span><span class="nx">detachEvent</span><span class="p">(</span><span class="s1">&#39;on&#39;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">);</span> <span class="p">};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// even older Browsers (not sure if it&#39;s still needed, since we won&#39;t support dinosaur Browsers)</span>
+        <span class="nx">domtools</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">connect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="nx">el</span><span class="p">[</span><span class="s1">&#39;on&#39;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">]</span> <span class="o">=</span> <span class="nx">listener</span><span class="p">;</span> <span class="p">};</span>
+        <span class="nx">domtools</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">disconnect</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">listener</span><span class="p">)</span> <span class="p">{</span> <span class="k">delete</span> <span class="nx">el</span><span class="p">[</span><span class="s1">&#39;on&#39;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">];</span> <span class="p">};</span>
+    <span class="p">}</span>
 
     <span class="cm">/**</span>
 <span class="cm">     * Submodule for some helper functions</span>
@@ -404,6 +412,21 @@
             <span class="p">};</span>
         <span class="p">},</span>
         <span class="cm">/**</span>
+<span class="cm">         * Method that takes a DOM NodeList and returns an array</span>
+<span class="cm">         * @method list2Array</span>
+<span class="cm">         * @param {NodeList} list the DOM NodeList</span>
+<span class="cm">         * @return {Array} Returns the DOM NodeList converted to an array</span>
+<span class="cm">         */</span>
+        <span class="nx">list2Array</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">list</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[],</span>
+                <span class="nx">len</span> <span class="o">=</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+                <span class="nx">i</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">list</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="nx">arr</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="cm">/**</span>
 <span class="cm">         * Method for loading Javascript Files asynchronously</span>
 <span class="cm">         * @method loadScript</span>
 <span class="cm">         * @param {String} url the Url of the Script that should be loaded</span>
@@ -411,29 +434,33 @@
 <span class="cm">         * @param {Function} callback Optional: A Callback Function which should be executed when the Script is fully loaded (the callback gets also executed if the file is already loaded)</span>
 <span class="cm">         * @return {Boolean} Returns false if the Script is already loaded</span>
 <span class="cm">         */</span>
-        <span class="nx">loadScript</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">id</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">))</span> <span class="p">{</span>
-                <span class="c1">// early exit if the script is already loaded</span>
-                <span class="nx">callback</span> <span class="o">&amp;&amp;</span> <span class="nx">callback</span><span class="p">();</span>
-                <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-            <span class="p">}</span>
-            <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">url</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">||</span> <span class="k">typeof</span> <span class="nx">id</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;You must provide an unique id and an url from where the script should be loaded!&#39;</span><span class="p">);</span>
-            <span class="p">}</span>
-            <span class="kd">var</span> <span class="nx">js</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">),</span>
-                <span class="nx">callbackonce</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="nx">callback</span><span class="p">),</span>
-                <span class="nx">fjs</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
-            <span class="nx">js</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">id</span><span class="p">;</span>
-            <span class="nx">js</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
-            <span class="nx">js</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-            <span class="c1">// standard conform browsers fire onload event. IE fires onreadystatechange events and sometimes only &#39;complete&#39; or &#39;loaded&#39;</span>
-            <span class="nx">js</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">js</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s1">&#39;complete&#39;</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s1">&#39;loaded&#39;</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="nx">callbackonce</span><span class="p">();</span>
+        <span class="nx">loadScript</span><span class="o">:</span> <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">queue</span> <span class="o">=</span> <span class="p">{},</span>
+                <span class="nx">fjs</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="nx">scriptLoaded</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="c1">// standard conform browsers fire onload event. IE fires onreadystatechange events and sometimes only &#39;complete&#39; or &#39;loaded&#39;</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s1">&#39;complete&#39;</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="s1">&#39;loaded&#39;</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">queue</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">queue</span><span class="p">[</span><span class="nx">id</span><span class="p">]();</span>
+                        <span class="k">delete</span> <span class="nx">queue</span><span class="p">[</span><span class="nx">id</span><span class="p">];</span>
+                    <span class="p">}</span>
+                <span class="p">};</span>
+            <span class="k">return</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">url</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">||</span> <span class="k">typeof</span> <span class="nx">id</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;You must provide an unique id and an url from where the script should be loaded!&#39;</span><span class="p">);</span>
                 <span class="p">}</span>
+                <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">queue</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">queue</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="kd">var</span> <span class="nx">js</span> <span class="o">=</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+                <span class="nx">js</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">id</span><span class="p">;</span>
+                <span class="nx">js</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+                <span class="nx">js</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="nx">js</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="nx">js</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="nx">scriptLoaded</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span> <span class="nx">id</span><span class="p">);</span>
+                <span class="nx">fjs</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span> <span class="nx">fjs</span><span class="p">);</span>
             <span class="p">};</span>
-            <span class="nx">fjs</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">js</span><span class="p">,</span> <span class="nx">fjs</span><span class="p">);</span>
-        <span class="p">}</span>
+        <span class="p">}())</span>
     <span class="p">};</span>
 
     <span class="cm">/**</span>
@@ -451,7 +478,9 @@
 <span class="cm">         * @param {String} url The Url to which the Ajax call should be made</span>
 <span class="cm">         * @param {Mixed} data Optional: The data you want to send</span>
 <span class="cm">         * @param {Function} success The Success Callback will be called if the Request was made Successful (readyState === 4, httpStatus === 200).</span>
+<span class="cm">         * It gets called with 2 Parameters, first is responseText, second is the xhr Object used for this request.</span>
 <span class="cm">         * @param {Function} error The Error Callback will be called if the Server responded with a different StatusCode than 200</span>
+<span class="cm">         * It gets called width 2 Parameters, first is HTTP Status Code, second is the xhr Object used for this request.</span>
 <span class="cm">         * @return {Object} Returns the XMLHttpRequest Object for that Request.</span>
 <span class="cm">         */</span>
         <span class="nx">request</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">method</span><span class="p">,</span> <span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">success</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
@@ -475,12 +504,19 @@
                 <span class="nx">xhr</span><span class="p">.</span><span class="nx">setRequestHeader</span><span class="p">(</span><span class="nx">header</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">header</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
             <span class="p">});</span>
             <span class="nx">xhr</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-                <span class="kd">var</span> <span class="nx">responseText</span><span class="p">;</span>
+                <span class="kd">var</span> <span class="nx">responseText</span><span class="p">,</span>
+                    <span class="nx">contentType</span><span class="p">;</span>
                 <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
                     <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
                         <span class="nx">responseText</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">responseText</span><span class="p">;</span>
-                        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getResponseHeader</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)</span> <span class="p">{</span>
-                            <span class="nx">responseText</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">responseText</span><span class="p">);</span>
+                        <span class="nx">contentType</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getResponseHeader</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">);</span>
+                        <span class="k">if</span> <span class="p">((</span><span class="nx">contentType</span> <span class="o">||</span> <span class="s1">&#39;;&#39;</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)</span> <span class="p">{</span>
+                            <span class="c1">// if response Content-Type is json, parse it and return the Javascript Object</span>
+                            <span class="k">try</span> <span class="p">{</span>
+                                <span class="nx">responseText</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">responseText</span><span class="p">);</span>
+                            <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+                                <span class="nx">responseText</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">responseText</span><span class="p">;</span>
+                            <span class="p">}</span>
                         <span class="p">}</span>
                         <span class="nx">success</span> <span class="o">&amp;&amp;</span> <span class="nx">success</span><span class="p">(</span><span class="nx">responseText</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
                     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -516,6 +552,7 @@
             <span class="c1">// if data is an instance of this.FormData and data._boundary is defined it&#39;s our polyfill and we need to set the required http headers</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">data</span> <span class="k">instanceof</span> <span class="k">this</span><span class="p">.</span><span class="nx">FormData</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">data</span><span class="p">.</span><span class="nx">_boundary</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">headers</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">_contentType</span><span class="p">]];</span>
+                <span class="nx">data</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
             <span class="p">}</span>
             <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
                 <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
@@ -540,9 +577,9 @@
             <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">win</span><span class="p">.</span><span class="nx">FormData</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">_FormData</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">form</span><span class="p">)</span> <span class="p">{</span>
                     <span class="kd">var</span> <span class="nx">inputs</span> <span class="o">=</span> <span class="p">[].</span><span class="nx">concat</span><span class="p">(</span>
-                        <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">domtools</span><span class="p">.</span><span class="nx">byTagName</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="nx">form</span><span class="p">)),</span>
-                        <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">domtools</span><span class="p">.</span><span class="nx">byTagName</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="nx">form</span><span class="p">)),</span>
-                        <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">domtools</span><span class="p">.</span><span class="nx">byTagName</span><span class="p">(</span><span class="s1">&#39;textarea&#39;</span><span class="p">,</span> <span class="nx">form</span><span class="p">))</span>
+                        <span class="nx">domtools</span><span class="p">.</span><span class="nx">helper</span><span class="p">.</span><span class="nx">list2Array</span><span class="p">(</span><span class="nx">domtools</span><span class="p">.</span><span class="nx">byTagName</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="nx">form</span><span class="p">)),</span>
+                        <span class="nx">domtools</span><span class="p">.</span><span class="nx">helper</span><span class="p">.</span><span class="nx">list2Array</span><span class="p">(</span><span class="nx">domtools</span><span class="p">.</span><span class="nx">byTagName</span><span class="p">(</span><span class="s1">&#39;select&#39;</span><span class="p">,</span> <span class="nx">form</span><span class="p">)),</span>
+                        <span class="nx">domtools</span><span class="p">.</span><span class="nx">helper</span><span class="p">.</span><span class="nx">list2Array</span><span class="p">(</span><span class="nx">domtools</span><span class="p">.</span><span class="nx">byTagName</span><span class="p">(</span><span class="s1">&#39;textarea&#39;</span><span class="p">,</span> <span class="nx">form</span><span class="p">))</span>
                     <span class="p">);</span>
                     <span class="k">this</span><span class="p">.</span><span class="nx">_fields</span> <span class="o">=</span> <span class="p">[];</span>
                     <span class="k">this</span><span class="p">.</span><span class="nx">_boundary</span> <span class="o">=</span> <span class="s1">&#39;----FormDataBoundary&#39;</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">10</span><span class="p">;</span>

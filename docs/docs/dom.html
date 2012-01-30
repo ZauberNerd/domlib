@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: dom  dom  </title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1326381226.11" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1326381226.11" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1327912463.49" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1327912463.49" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1326381226.11"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1326381226.11"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1327912463.49"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1327912463.49"></script>
 </head>
 
 <body id="yahoo-com">
@@ -755,7 +755,7 @@
                                             If the Browser doesn't support querySelectorAll add the Method setSelectorEngine to domtools which replaces the noop function selectorEngine with i.e. Sizzle or something else.
 This Method will only be avaialable if the Browser doesn't support querySelectorAll, so you have to test if this method exists and if it's true you must call it and pass a CSS Selector Engine.
 Otherwise domtools.query and domtools.byClass will throw an Error everytime you call them.
-The easiest way: Create an init function for your application and check if domtools.setSelectorEngine exists, if not you could call your init function, otherwise load Sizzle and call then your init function.
+The easiest way: Create an init function for your application and check if domtools.setSelectorEngine is a function, if not you could call your init function, otherwise load Sizzle and call then your init function.
                                         </div>
 
                                         <div class="description">
